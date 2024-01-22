@@ -1,0 +1,56 @@
+.todo {
+  padding: 5px 10px;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3498db;
+  border-radius: 1em;
+  margin: 5px 10px;
+
+  input {
+    display: flex;
+    flex: 0.05;
+  }
+
+  .todo-text {
+    display: flex;
+    flex: 0.95;
+    flex-grow: 1;
+    color: white;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-left: 10px;
+
+    h3 {
+      margin: 0;
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+    p {
+      font-size: 0.8em;
+      margin: 0;
+    }
+  }
+
+  span {
+    color: white;
+    cursor: pointer;
+    margin: 0px 15px;
+  }
+
+  .important {
+    color: gold;
+  }
+}
+
+.completed {
+  color: #ebebeb;
+  background-color: gray;
+
+  h3 {
+    text-decoration: line-through;
+  }
+}

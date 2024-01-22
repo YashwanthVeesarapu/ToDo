@@ -1,0 +1,107 @@
+<div class="outer-todos">
+  <div class="todos-comp">
+    <div class="todos-tab">
+      <div
+        class="todos-tab-item"
+        [class.active]="selectedTab === 'day'"
+        (click)="setSelection('day')"
+      >
+        <div class="tab-show" [matBadge]="getTasksForTab('day')">My Day</div>
+      </div>
+      <div
+        class="todos-tab-item"
+        [class.active]="selectedTab === 'important'"
+        (click)="setSelection('important')"
+      >
+        <div class="tab-show" [matBadge]="getTasksForTab('important')">
+          Important
+        </div>
+      </div>
+      <div
+        class="todos-tab-item"
+        [class.active]="selectedTab === 'planned'"
+        (click)="setSelection('planned')"
+      >
+        <div class="tab-show" [matBadge]="getTasksForTab('planned')">
+          Planned
+        </div>
+      </div>
+
+      <div
+        class="todos-tab-item"
+        [class.active]="selectedTab === 'tasks'"
+        (click)="setSelection('tasks')"
+      >
+        <div class="tab-show" [matBadge]="getTasksForTab('tasks')">Tasks</div>
+      </div>
+    </div>
+
+    <div class="todos-show">
+      <!-- Incomplete Todos -->
+      <div class="todos-area">
+        <div class="loader" *ngIf="loading"></div>
+
+        <div *ngIf="!loading" class="incomplete-div">
+          <div *ngFor="let todo of filteredTodos">
+            <app-todo
+              *ngIf="!todo.completed"
+              [todo]="todo"
+              (onCompleteTodo)="completeTodo(todo)"
+              (onStarTodo)="starTodo(todo)"
+              (handleClick)="handleClick(todo)"
+            ></app-todo>
+          </div>
+        </div>
+        <div class="complete-div" *ngIf="hasCompletedTodos()">
+          <h2>Completed</h2>
+          <div *ngFor="let todo of filteredTodos">
+            <app-todo
+              *ngIf="todo.completed"
+              [todo]="todo"
+              (onCompleteTodo)="completeTodo(todo)"
+              (onStarTodo)="starTodo(todo)"
+              (handleClick)="handleClick(todo)"
+            ></app-todo>
+          </div>
+        </div>
+      </div>
+
+      <div class="todos-add">
+        <mat-icon>add</mat-icon>
+        <input
+          #title
+          type="text"
+          placeholder="Add a Task"
+          (keyup.enter)="addTask(title)"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="openModal" class="modal-show">
+      <div class="modal-main">
+        <h2>{{ clickData.title }}</h2>
+        <div class="repeat-div">
+          <label for="dropdown">Repeat</label>
+          <select
+            [value]="clickData.repeat"
+            id="dropdown"
+            (change)="repeatChange($event)"
+          >
+            <option value="none">None</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="weekdays">Weekdays</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-grp">
+        <mat-icon (click)="closeModal()">close</mat-icon>
+
+        <mat-icon (click)="deleteTodo(clickData)">delete</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

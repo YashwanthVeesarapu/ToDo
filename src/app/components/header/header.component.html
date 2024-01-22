@@ -1,0 +1,10 @@
+<header>
+  <h1>{{ title }}</h1>
+  <button
+    *ngIf="auth.isAuthenticated()"
+    (click)="onLogoutClick()"
+    type="button"
+  >
+    Logout
+  </button>
+</header>
