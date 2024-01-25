@@ -1,5 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <h2>Login</h2>
+
   <div>
     <label for="username">Username</label>
     <input type="text" id="username" formControlName="username" />
@@ -25,4 +26,9 @@
   </div>
 
   <button type="submit" [disabled]="loginForm.invalid">Login</button>
+
+  <p>
+    Don't have an account? <br />
+    No worries, just enter a username and password and you'll be logged in.
+  </p>
 </form>

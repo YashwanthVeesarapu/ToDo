@@ -178,8 +178,8 @@ export class TodoListComponent implements OnInit {
     this.clickData;
     todo.completed = !todo.completed;
 
-    this.todoService.editTodo(todo).subscribe(() => {
-      this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
+    this.todoService.editTodo(todo).subscribe((d) => {
+      this.todos = this.todos.map((t) => (t.id === todo.id ? d : t));
       this.filterTodosByTab();
     });
   }
