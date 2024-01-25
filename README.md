@@ -1,27 +1,35 @@
-# Todo
+# Todo Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
+## Overview
 
-## Development server
+This project is a simple and efficient todo application developed using Angular and Spring Boot. The motivation behind creating this app was to address the issues faced while using Microsoft Todo, such as frequent crashes on Mac and a less-than-optimal web login experience.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- **Cross-Platform Access:** Access your todo list seamlessly on various devices, ensuring a consistent user experience.
+- **Fast and Efficient:** Built with performance in mind, this application offers a snappy and efficient user interface.
+- **Web Version:** Easily manage your todos through the web version, eliminating the need for a standalone app.
+- **User-Friendly:** Designed for simplicity and ease of use, making task management a breeze.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technologies Used
 
-## Build
+- **Angular:** Front-end development framework for building dynamic web applications.
+- **Spring Boot:** Back-end framework for creating Java-based, production-grade applications.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Contributing
 
-## Running unit tests
+If you'd like to contribute to the project, follow these steps:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin feature/your-feature-name`
+5. Submit a pull request.
 
-## Running end-to-end tests
+## License
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+This project is licensed under the [License Name] - see the [LICENSE.md](LICENSE.md) file for details.
 
-## Further help
+## Acknowledgments
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Special thanks to the open-source community and the developers of Angular and Spring Boot for providing powerful frameworks that made this project possible.

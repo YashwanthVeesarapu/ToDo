@@ -1,5 +1,5 @@
 <header>
-  <h1>{{ title }}</h1>
+  <h1 (click)="navigateTo('/')">{{ title }}</h1>
   <button
     *ngIf="auth.isAuthenticated()"
     (click)="onLogoutClick()"

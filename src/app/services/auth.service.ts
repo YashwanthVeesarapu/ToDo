@@ -23,6 +23,8 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('uid');
+    localStorage.removeItem('username');
   }
   isAuthenticated(): boolean {
     const token = localStorage.getItem('access_token');
