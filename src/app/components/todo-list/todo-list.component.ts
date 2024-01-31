@@ -28,6 +28,7 @@ export class TodoListComponent implements OnInit {
   clickData!: Todo;
   openModal: boolean = false;
   selectedTab = 'day';
+  title: string = '';
 
   constructor(private todoService: TodoService) {}
 
@@ -162,7 +163,9 @@ export class TodoListComponent implements OnInit {
     );
   }
 
-  addTask(title: HTMLInputElement) {
+  addTask(e: KeyboardEvent, title: HTMLInputElement) {
+    if (e.key !== 'Enter') return;
+
     if (title.value.trim() === '') {
       return;
     }

@@ -72,7 +72,7 @@
           #title
           type="text"
           placeholder="Add a Task"
-          (keyup.enter)="addTask(title)"
+          (keydown)="addTask($event, title)"
         />
       </div>
     </div>

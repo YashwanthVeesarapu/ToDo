@@ -34,6 +34,7 @@
     justify-content: space-between;
     background-color: var(--background-color);
     height: calc(100vh - var(--header-height) - 1px);
+    height: calc(100svh - var(--header-height) - 1px);
 
     .todos-area {
       display: flex;
@@ -70,6 +71,8 @@
     flex-direction: column;
     flex: 0.25;
     height: calc(100vh - var(--header-height) - 1px);
+    height: calc(100svh - var(--header-height) - 1px);
+
     justify-content: space-between;
 
     .modal-main {
