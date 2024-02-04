@@ -8,8 +8,11 @@ export class ConfigService {
 
   constructor() {
     this.apiUrl = 'https://redtodo-91a009c1eda0.herokuapp.com/';
-
-    const dev = false;
+    let dev = false;
+    if (window.location.href.includes('localhost')) {
+      dev = true;
+    }
+    dev = false;
     if (dev) {
       this.apiUrl = 'http://localhost:8080/';
     }

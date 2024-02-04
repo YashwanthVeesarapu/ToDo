@@ -34,18 +34,19 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.todoService.getTodos().subscribe(
-      (todos) => {
+    this.todoService.getTodos().subscribe({
+      next: (todos) => {
         this.todos = todos;
         this.filterTodosByTab();
         this.loading = false;
+        console.log(todos);
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
         alert('Something went wrong.');
         this.loading = false;
-      }
-    );
+      },
+    });
   }
 
   setSelection(tab: string) {
@@ -71,7 +72,7 @@ export class TodoListComponent implements OnInit {
     return this.todos.filter((todo) => {
       switch (tab) {
         case 'day':
-          return this.isDay(todo);
+          return this.isDay(todo) && !todo.completed;
         case 'important':
           // Logic to filter tasks for "Important"
           // For example, you might want to filter tasks marked as important
@@ -82,7 +83,7 @@ export class TodoListComponent implements OnInit {
           return this.isPlanned(todo) /* your condition for Planned */;
         case 'tasks':
           // Logic to filter all tasks
-          return true;
+          return todo.completed === false;
         default:
           return false;
       }
@@ -93,10 +94,12 @@ export class TodoListComponent implements OnInit {
     if (todo.date) {
       const currentDate = new Date();
       const todoDate = new Date(todo.date);
+
       return (
-        currentDate.getDate() === todoDate.getDate() &&
-        currentDate.getMonth() === todoDate.getMonth() &&
-        currentDate.getFullYear() === todoDate.getFullYear()
+        (todoDate < currentDate && todo.completed === false) ||
+        (currentDate.getDate() === todoDate.getDate() &&
+          currentDate.getMonth() === todoDate.getMonth() &&
+          currentDate.getFullYear() === todoDate.getFullYear())
       );
     }
     return false;
