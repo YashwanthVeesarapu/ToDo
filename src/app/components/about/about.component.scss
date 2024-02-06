@@ -6,6 +6,22 @@
   height: calc(100vh - var(--header-height) - var(--header-height) - 1px);
   height: calc(100svh - var(--header-height) - var(--header-height) - 1px);
 
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px 0 20px;
+    border-radius: 10px;
+    background-color: var(--background-color);
+  }
+
   // styles for the page container
 
   &__title {
@@ -33,7 +49,14 @@
     // styles for the legal section
   }
 
+  &__legal {
+    margin: 10px;
+  }
+
   &__legal-text {
     // styles for the legal text
+    padding: 0%;
+    background: none;
+    color: black;
   }
 }

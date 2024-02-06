@@ -15,7 +15,8 @@ h3 {
   margin: 0;
 }
 
-button {
+button,
+a {
   background-color: var(--foreground-color);
   color: var(--background-color);
   padding: 10px;
