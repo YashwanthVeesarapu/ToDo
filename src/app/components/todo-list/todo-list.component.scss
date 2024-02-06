@@ -1,0 +1,131 @@
+.todos-comp {
+  display: flex;
+
+  .todos-tab {
+    display: flex;
+    flex: 0.25;
+    margin-bottom: 2rem;
+    flex-direction: column;
+    width: 100%;
+    .todos-tab-item {
+      width: auto;
+      text-align: center;
+      padding: 1rem;
+      cursor: pointer;
+      margin: 5px;
+      animation: slideIn 0.5s forwards;
+
+      &.active {
+        background-color: #f5f5f5;
+      }
+
+      .tab-show {
+        span {
+          font-size: 1.1em;
+          background-color: transparent;
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+
+  .todos-show {
+    display: flex;
+    flex: 0.75;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--background-color);
+    height: calc(100vh - var(--header-height) - 1px);
+    height: calc(100svh - var(--header-height) - 1px);
+    animation: slideIn 0.5s forwards;
+
+    .todos-area {
+      display: flex;
+      flex-direction: column;
+      animation: appear 0.5s forwards;
+      overflow: scroll;
+    }
+    .todos-add {
+      display: flex;
+      bottom: 0;
+      height: auto;
+      height: auto;
+      align-items: center;
+      .mat-icon {
+        position: absolute;
+        transform: translate(100%, 0);
+      }
+      input {
+        width: 100%;
+        background-color: white;
+        color: var(--foreground-color);
+        padding: 15px 40px;
+        border-radius: 2em;
+        margin: 10px;
+        font-size: 1.25em;
+        border: none;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .modal-show {
+    display: flex;
+    flex-direction: column;
+    flex: 0.25;
+    height: calc(100vh - var(--header-height) - 1px);
+    height: calc(100svh - var(--header-height) - 1px);
+    justify-content: space-between;
+    animation: slideIn 0.5s forwards;
+
+    .modal-main {
+      margin: 10px;
+      h2 {
+        font-size: 2em;
+      }
+      .repeat-div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 10px;
+        label {
+          flex: 1;
+          font-size: 1em;
+        }
+        select {
+          flex: 1;
+          padding: 10px;
+          margin: none;
+          border: none;
+          border-bottom: 1px solid var(--foreground-color);
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .btn-grp {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 10px;
+
+      .mat-icon {
+        cursor: pointer;
+        padding: 10px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .modal-show {
+    position: absolute;
+    background-color: var(--background-color);
+    width: 100%;
+    animation: popIn 0.5s forwards;
+  }
+}

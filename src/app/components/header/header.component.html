@@ -1,0 +1,10 @@
+<header>
+  <h1 (click)="navigateTo('/')">{{ title }}</h1>
+  <mat-icon
+    *ngIf="auth.isAuthenticated()"
+    (click)="onLogoutClick()"
+    type="button"
+  >
+    logout
+  </mat-icon>
+</header>

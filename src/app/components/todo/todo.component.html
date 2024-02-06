@@ -1,0 +1,18 @@
+<div class="todo" [class.completed]="todo.completed">
+  <mat-checkbox
+    type="checkbox"
+    [checked]="todo.completed"
+    (change)="onComplete(todo)"
+  />
+  <div class="todo-text" (click)="todoClick(todo)">
+    <h3>{{ todo.title }}</h3>
+    <p>{{ todo.date | date : "EEE, MMM dd" }}</p>
+  </div>
+  <span
+    [class.is-complete]="todo.completed"
+    [class.important]="todo.important"
+    class="star"
+    (click)="onStar(todo)"
+    >&#9733;</span
+  >
+</div>
