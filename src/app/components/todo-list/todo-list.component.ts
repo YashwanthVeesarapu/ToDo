@@ -25,7 +25,14 @@ export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
   loading: boolean = false;
   filteredTodos: Todo[] = [];
-  clickData!: Todo;
+  clickData: Todo = {
+    id: '',
+    title: '',
+    date: '',
+    repeat: '',
+    completed: false,
+    important: false,
+  };
   openModal: boolean = false;
   selectedTab = 'day';
   title: string = '';

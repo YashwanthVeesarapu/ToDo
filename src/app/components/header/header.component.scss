@@ -1,16 +1,16 @@
 header {
-  background-color: #fff;
+  background-color: var(--background-secondary-color);
   border-bottom: 1px solid #ebebeb;
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: var(--foreground-color);
   height: var(--header-height);
 
   h1 {
     margin: 0;
     font-size: 1.5em;
-    color: #333;
     cursor: pointer;
   }
 

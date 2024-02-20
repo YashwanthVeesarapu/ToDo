@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div *ngIf="openModal" class="modal-show">
+    <div [ngClass]="openModal ? 'modal-show' : 'modal-hide'">
       <div class="modal-main">
         <h2>{{ clickData.title }}</h2>
         <div class="repeat-div">
