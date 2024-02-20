@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Todo } from '../../Todo';
+import { Todo } from '../../models/Todo';
 import { CommonModule } from '@angular/common';
 import { TodoComponent } from '../todo/todo.component';
-import { TodoService } from '../../services/todo.service';
+import { TodoService } from '../../services/todo/todo.service';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -146,7 +146,10 @@ export class TodoListComponent implements OnInit {
     console.log(e.target.value);
     this.clickData.repeat = e.target.value;
     this.todoService.editTodo(this.clickData).subscribe(
-      () => {},
+      (todo) => {
+        this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
+        this.filterTodosByTab();
+      },
       (error) => alert(error.error)
     );
   }

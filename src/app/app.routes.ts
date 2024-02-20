@@ -4,12 +4,9 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { AuthGuard } from './AuthGaurd';
 import { AboutComponent } from './components/about/about.component';
 import { DownloadComponent } from './components/download/download.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
   {
     path: '',
     component: TodoListComponent,
@@ -22,5 +19,13 @@ export const routes: Routes = [
   {
     path: 'download',
     component: DownloadComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
 ];

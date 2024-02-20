@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Todo } from '../Todo';
+import { Todo } from '../../models/Todo';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ConfigService } from './config.service';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class TodoService {
   private jwtToken: string;
   private uid: string;
 
-  constructor(private http: HttpClient, private configService: ConfigService) {
-    this.apiUrl = configService.apiUrl + 'todos';
+  constructor(private http: HttpClient) {
+    this.apiUrl = environment.apiUrl + 'todos';
     this.jwtToken = localStorage.getItem('access_token') || '';
     this.uid = localStorage.getItem('uid') || '';
   }
@@ -29,6 +29,7 @@ export class TodoService {
   }
 
   editTodo(todo: Todo): Observable<Todo> {
+    console.log(todo);
     if (todo.repeat !== 'none' && todo.completed === true) {
       todo.completed = false;
       switch (todo.repeat) {
@@ -58,7 +59,7 @@ export class TodoService {
           break;
       }
     }
-
+    console.log(todo);
     return this.http.put<Todo>(this.apiUrl, todo);
   }
 

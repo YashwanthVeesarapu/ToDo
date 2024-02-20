@@ -1,5 +1,5 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <h2>Login</h2>
+  <h2>Register</h2>
 
   <div>
     <label for="username">Username</label>
@@ -25,11 +25,23 @@
     </div>
   </div>
 
-  <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  <div>
+    <label for="cpassword">Confirm Password</label>
+    <input type="password" id="cpassword" formControlName="cpassword" />
+    <div
+      *ngIf="
+        formControls['cpassword'].invalid && formControls['cpassword'].touched
+      "
+    >
+      Password is required and must be at least 4 characters long.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="loginForm.invalid">Submit</button>
   <div class="bottom-info">
     <p>
-      Don't have an account? <br />
-      <a routerLink="/register">Register</a>
+      Already have an account? <br />
+      <a routerLink="/login" href="/login">Login</a>
     </p>
   </div>
 </form>

@@ -6,18 +6,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
-import { User } from '../../models/User';
 import { Router, RouterModule } from '@angular/router';
+import { User } from '../../models/User';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   authenticated = false;
   loginForm!: FormGroup;
 
@@ -28,22 +28,21 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check if user is already authenticated
     this.authenticated = this.authService.isAuthenticated();
 
     if (this.authenticated) {
       // User is already authenticated, redirect to another route
-      this.router.navigate(['/']);
+      this.router.navigate(['/']); // Replace with your desired route
     }
 
     this.initForm();
   }
 
   initForm() {
-    // Initialize the form
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required, Validators.minLength(4)],
+      username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(4)]],
+      cpassword: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -51,9 +50,15 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  // Handle form submission
   onSubmit() {
     if (this.loginForm.invalid) {
+      return;
+    }
+    if (
+      this.formControls['password'].value !==
+      this.formControls['cpassword'].value
+    ) {
+      alert('Passwords do not match');
       return;
     }
 
@@ -62,7 +67,7 @@ export class LoginComponent implements OnInit {
       password: this.formControls['password'].value,
     };
 
-    this.authService.login(user).subscribe(
+    this.authService.register(user).subscribe(
       (u) => {
         if (u.accessToken && u.username && u.id) {
           localStorage.setItem('access_token', u.accessToken);
