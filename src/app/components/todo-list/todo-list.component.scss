@@ -39,6 +39,7 @@
     height: calc(100vh - var(--header-height) - 1px);
     height: calc(100svh - var(--header-height) - 1px);
     animation: slideIn 0.5s forwards;
+    transition: all 0.5s ease-in-out;
     width: 100%;
     min-width: 50vw;
 
@@ -62,7 +63,6 @@
       input {
         width: 100%;
         background-color: white;
-        color: var(--foreground-color);
         padding: 15px 40px;
         border-radius: 2em;
         margin: 10px;
@@ -89,7 +89,8 @@
       h2 {
         font-size: 2em;
       }
-      .repeat-div {
+      .repeat-div,
+      .date-div {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -99,6 +100,17 @@
           font-size: 1em;
         }
         select {
+          flex: 1;
+          padding: 10px;
+          margin: none;
+          border: none;
+          border-bottom: 1px solid var(--foreground-color);
+          &:focus {
+            outline: none;
+          }
+        }
+        input {
+          margin-top: 5px;
           flex: 1;
           padding: 10px;
           margin: none;

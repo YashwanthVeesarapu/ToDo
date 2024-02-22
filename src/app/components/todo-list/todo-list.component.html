@@ -96,6 +96,15 @@
             <option value="yearly">Yearly</option>
           </select>
         </div>
+        <div class="date-div">
+          <label for="date">Due Date</label>
+          <input
+            type="date"
+            [value]="clickData.date"
+            id="date"
+            (change)="dateChange($event)"
+          />
+        </div>
       </div>
 
       <div class="btn-grp">

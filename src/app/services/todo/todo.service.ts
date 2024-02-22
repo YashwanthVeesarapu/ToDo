@@ -63,6 +63,12 @@ export class TodoService {
     return this.http.put<Todo>(this.apiUrl, todo);
   }
 
+  editTodoDate(todo: Todo): Observable<Todo> {
+    todo.repeat = 'none';
+    todo.completed = false;
+    return this.http.put<Todo>(this.apiUrl, todo);
+  }
+
   deleteTodo(todo: Todo): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -75,11 +81,15 @@ export class TodoService {
   }
 
   addTask(title: string): Observable<Todo> {
-    const currentDate = new Date();
+    let currentDate = new Date();
+    //date in the format of yyyy-mm-dd
+
+    let formattedDate = currentDate.toISOString().split('T')[0];
+
     const todo: Todo = {
       title: title,
       completed: false,
-      date: currentDate.toISOString(),
+      date: formattedDate,
       token: localStorage.getItem('access_token') || '',
       username: localStorage.getItem('username') || '',
       repeat: 'none',

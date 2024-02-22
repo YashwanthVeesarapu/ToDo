@@ -62,6 +62,7 @@ export class TodoListComponent implements OnInit {
   }
 
   handleClick(todo: Todo) {
+    console.log(todo);
     if (this.clickData && this.clickData.id === todo.id) {
       this.openModal = !this.openModal;
     } else {
@@ -69,6 +70,18 @@ export class TodoListComponent implements OnInit {
       this.openModal = true;
       this.clickData = todo;
     }
+  }
+
+  dateChange(e: any) {
+    this.clickData.date = e.target.value;
+    this.todoService.editTodoDate(this.clickData).subscribe({
+      next: (todo) => {
+        console.log(todo);
+        this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
+        this.filterTodosByTab();
+      },
+      error: (error) => alert(error.error),
+    });
   }
 
   hasCompletedTodos(): boolean {
