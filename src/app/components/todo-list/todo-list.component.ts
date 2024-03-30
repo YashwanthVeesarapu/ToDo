@@ -173,6 +173,18 @@ export class TodoListComponent implements OnInit {
       (error) => alert(error.error)
     );
   }
+
+  remindChange(e: any) {
+    console.log(e.target.value);
+    this.clickData.remind = e.target.value;
+    this.todoService.editTodoDate(this.clickData).subscribe(
+      (todo) => {
+        this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
+        this.filterTodosByTab();
+      },
+      (error) => alert(error.error)
+    );
+  }
   deleteTodo(todo: Todo) {
     console.log(todo);
     if (!todo.id) return;

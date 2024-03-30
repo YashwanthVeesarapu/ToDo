@@ -1,0 +1,34 @@
+<!-- profile page -->
+<div class="profile">
+  <h1>Profile</h1>
+  <div class="profile-info">
+    <div class="profile-info-item">
+      <h2 class="profile-info-item-label">Username</h2>
+      <p class="profile-info-item-value">{{ user.username }}</p>
+    </div>
+    <div class="profile-info-item">
+      <h2 class="profile-info-item-label">Email</h2>
+      <input
+        class="profile-info-item-value"
+        type="email"
+        [(ngModel)]="user.email"
+      />
+    </div>
+
+    <div class="profile-info-item">
+      <h2 class="profile-info-item-label">Timezone</h2>
+      <mat-select class="profile-info-item-value" [(ngModel)]="user.timezone">
+        <mat-option *ngFor="let timezone of timezones" [value]="timezone.value">
+          {{ timezone.label }}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+
+  <div class="profile-actions">
+    <button mat-raised-button color="primary" (click)="editUser()">
+      Edit Profile
+    </button>
+    <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+  </div>
+</div>

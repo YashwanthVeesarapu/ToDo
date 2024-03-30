@@ -3,4 +3,6 @@ export interface User {
   username?: string;
   password?: string;
   accessToken?: string;
+  email?: string;
+  timezone?: string;
 }

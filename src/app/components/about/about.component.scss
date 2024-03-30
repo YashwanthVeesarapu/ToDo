@@ -6,57 +6,44 @@
   height: calc(100vh - var(--header-height) - var(--header-height) - 1px);
   height: calc(100svh - var(--header-height) - var(--header-height) - 1px);
 
-  background: linear-gradient(
-    45deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
-
   .container {
+    padding: 2em;
+    border-radius: 1em;
+    text-align: center;
+
+    .title {
+      font-size: 6em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .subtitle {
+      font-size: 2em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      font-weight: 400;
+      opacity: 0.5;
+    }
+  }
+  .btn-grp {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 20px 0 20px;
-    border-radius: 10px;
-    background-color: var(--background-color);
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 1em 0;
+    a {
+      text-decoration: none;
+      background: var(--secondary-color);
+      color: var(--primary-color);
+      padding: 1em 2em;
+      font-size: 1.5em;
+    }
   }
+  .terms {
+    margin-top: 1em 0;
 
-  // styles for the page container
-
-  &__title {
-    // styles for the title
-  }
-
-  &__subtitle {
-    // styles for the subtitle
-  }
-
-  &__button-group {
-    // styles for the button group
-  }
-
-  &__button {
-    margin: 5px;
-    // styles for the buttons
-  }
-
-  &__download-link {
-    // styles for the download link
-  }
-
-  &__legal {
-    // styles for the legal section
-  }
-
-  &__legal {
-    margin: 10px;
-  }
-
-  &__legal-text {
-    // styles for the legal text
-    padding: 0%;
-    background: none;
-    color: black;
+    a {
+      background: none;
+      color: white;
+    }
   }
 }

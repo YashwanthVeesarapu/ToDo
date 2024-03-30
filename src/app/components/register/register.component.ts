@@ -21,6 +21,25 @@ export class RegisterComponent implements OnInit {
   authenticated = false;
   loginForm!: FormGroup;
 
+  // all timezones
+  timezones = [
+    'America/Los_Angeles',
+    'America/Chicago',
+    'America/Toronto',
+    'America/New_York',
+    'America/Mexico_City',
+    'Europe/London',
+    'Europe/Paris',
+    'Europe/Berlin',
+    'Europe/Moscow',
+    'Asia/Tokyo',
+    'Asia/Shanghai',
+    'Asia/Dubai',
+    'Asia/Kolkata',
+    'Australia/Sydney',
+    'Pacific/Auckland',
+  ];
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -41,6 +60,11 @@ export class RegisterComponent implements OnInit {
   initForm() {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
+      email: ['', [Validators.required, Validators.email]],
+      timezone: [
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+        [Validators.required],
+      ],
       password: ['', [Validators.required, Validators.minLength(4)]],
       cpassword: ['', [Validators.required, Validators.minLength(4)]],
     });
@@ -65,14 +89,18 @@ export class RegisterComponent implements OnInit {
     const user: User = {
       username: this.loginForm.controls['username'].value,
       password: this.formControls['password'].value,
+      timezone: this.formControls['timezone'].value,
+      email: this.formControls['email'].value,
     };
 
     this.authService.register(user).subscribe(
       (u) => {
-        if (u.accessToken && u.username && u.id) {
+        if (u.accessToken && u.username && u.id && u.email) {
           localStorage.setItem('access_token', u.accessToken);
           localStorage.setItem('username', u.username);
           localStorage.setItem('uid', u.id);
+          localStorage.setItem('email', u.email);
+
           this.router.navigate(['/']);
         }
       },

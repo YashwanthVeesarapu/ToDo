@@ -68,6 +68,8 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('access_token', u.accessToken);
           localStorage.setItem('username', u.username);
           localStorage.setItem('uid', u.id);
+          delete u.password;
+          localStorage.setItem('user', JSON.stringify(u));
           this.router.navigate(['/']);
         }
       },

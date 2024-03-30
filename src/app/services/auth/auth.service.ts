@@ -29,10 +29,23 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('uid');
     localStorage.removeItem('username');
+    localStorage.removeItem('user');
   }
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('access_token');
+
+    const localUser = localStorage.getItem('user');
+
+    if (localUser) {
+      const user: User = JSON.parse(localUser);
+      if (user.id && user.username) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+
     return !jwtHelper.isTokenExpired(token || '');
   }
 }

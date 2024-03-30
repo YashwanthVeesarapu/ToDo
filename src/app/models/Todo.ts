@@ -5,7 +5,7 @@ export interface Todo {
   completed?: boolean;
   date?: any;
   repeat?: string;
-  remind?: boolean;
+  remind?: string;
   important?: boolean;
   token?: string;
   uid?: string;

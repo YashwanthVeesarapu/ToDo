@@ -14,6 +14,31 @@
   </div>
 
   <div>
+    <label for="email">Email</label>
+    <input type="email" id="email" formControlName="email" />
+    <div *ngIf="formControls['email'].invalid && formControls['email'].touched">
+      Email is required and must be a valid email.
+    </div>
+  </div>
+
+  <div>
+    <label for="timezone">Timezone</label>
+    <select id="timezone" formControlName="timezone">
+      <option value="">Select a timezone</option>
+      <option *ngFor="let timezone of timezones" [value]="timezone">
+        {{ timezone }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        formControls['timezone'].invalid && formControls['timezone'].touched
+      "
+    >
+      Timezone is required.
+    </div>
+  </div>
+
+  <div>
     <label for="password">Password</label>
     <input type="password" id="password" formControlName="password" />
     <div

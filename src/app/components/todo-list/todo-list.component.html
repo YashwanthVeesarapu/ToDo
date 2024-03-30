@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <div class="todos-show">
+    <div [class]="openModal ? 'todos-show open' : 'todos-show close'">
       <!-- Incomplete Todos -->
       <div class="todos-area">
         <div class="loader" *ngIf="loading"></div>
@@ -68,7 +68,7 @@
       </div>
 
       <div class="todos-add">
-        <mat-icon>add</mat-icon>
+        <mat-icon class="add-icon">add</mat-icon>
         <input
           #title
           type="text"
@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div [ngClass]="openModal ? 'modal-show' : 'modal-hide'">
+    <div [ngClass]="openModal ? 'modal-show show' : 'modal-show hide'">
       <div class="modal-main">
         <h2>{{ clickData.title }}</h2>
         <div class="repeat-div">
@@ -104,6 +104,17 @@
             id="date"
             (change)="dateChange($event)"
           />
+        </div>
+        <div class="repeat-div">
+          <label for="dropdown-remind">Remind</label>
+          <select
+            [value]="clickData.remind"
+            id="dropdown-remind"
+            (change)="remindChange($event)"
+          >
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
         </div>
       </div>
 

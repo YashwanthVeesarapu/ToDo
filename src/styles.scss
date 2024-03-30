@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-
+@font-face {
+  font-family: "TB";
+  src: url("./assets/fonts/tb.ttf");
+}
 :root {
   --header-height: 50px;
   --primary-color: #3498db;
@@ -22,6 +25,8 @@
 body {
   background-color: var(--background-color);
   color: var(--foreground-color);
+  max-width: 100vw;
+  overflow: hidden;
 }
 *,
 h1,
@@ -70,15 +75,6 @@ a {
   }
   to {
     transform: translateX(0);
-  }
-}
-
-@keyframes popIn {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
   }
 }
 

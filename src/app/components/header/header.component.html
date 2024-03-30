@@ -1,10 +1,20 @@
 <header>
   <h1 (click)="navigateTo('/')">{{ title }}</h1>
-  <mat-icon
-    *ngIf="auth.isAuthenticated()"
-    (click)="onLogoutClick()"
-    type="button"
-  >
-    logout
-  </mat-icon>
+  <div class="nav">
+    <mat-icon
+      *ngIf="auth.isAuthenticated()"
+      (click)="onLogoutClick()"
+      type="button"
+    >
+      logout
+    </mat-icon>
+
+    <mat-icon
+      *ngIf="auth.isAuthenticated()"
+      (click)="navigateTo('/profile')"
+      type="button"
+    >
+      person
+    </mat-icon>
+  </div>
 </header>

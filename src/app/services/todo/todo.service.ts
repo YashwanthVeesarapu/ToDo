@@ -93,6 +93,7 @@ export class TodoService {
       token: localStorage.getItem('access_token') || '',
       username: localStorage.getItem('username') || '',
       repeat: 'none',
+      remind: 'false',
     };
     return this.http.post<Todo>(this.apiUrl, todo);
   }

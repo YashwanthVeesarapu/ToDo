@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  title: string = 'ToDo';
+  title: string = 'To Do';
   @Output() onLogout = new EventEmitter<void>();
 
   public auth: AuthService;
