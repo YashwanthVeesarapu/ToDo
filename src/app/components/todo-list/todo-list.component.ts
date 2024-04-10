@@ -7,6 +7,8 @@ import { TodoService } from '../../services/todo/todo.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-list',
@@ -30,6 +32,7 @@ export class TodoListComponent implements OnInit {
     title: '',
     date: '',
     repeat: '',
+    time: '',
     completed: false,
     important: false,
   };
@@ -37,7 +40,11 @@ export class TodoListComponent implements OnInit {
   selectedTab = 'day';
   title: string = '';
 
-  constructor(private todoService: TodoService) {}
+  constructor(
+    private todoService: TodoService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -50,7 +57,12 @@ export class TodoListComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        alert('Something went wrong.');
+        if (error.status === 401) {
+          alert('Please login to continue.');
+          this.authService.logout();
+          // navigate to login page
+          this.router.navigate(['/login']);
+        } else alert('Something went wrong.');
         this.loading = false;
       },
     });
@@ -74,6 +86,19 @@ export class TodoListComponent implements OnInit {
 
   dateChange(e: any) {
     this.clickData.date = e.target.value;
+    this.todoService.editTodoDate(this.clickData).subscribe({
+      next: (todo) => {
+        console.log(todo);
+        this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
+        this.filterTodosByTab();
+      },
+      error: (error) => alert(error.error),
+    });
+  }
+
+  timeChange(e: any) {
+    this.clickData.time = e.target.value;
+
     this.todoService.editTodoDate(this.clickData).subscribe({
       next: (todo) => {
         console.log(todo);

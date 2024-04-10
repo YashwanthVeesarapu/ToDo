@@ -10,4 +10,5 @@ export interface Todo {
   token?: string;
   uid?: string;
   username?: string;
+  time?: string;
 }

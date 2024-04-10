@@ -90,11 +90,16 @@ export class TodoService {
       title: title,
       completed: false,
       date: formattedDate,
-      token: localStorage.getItem('access_token') || '',
       username: localStorage.getItem('username') || '',
+      uid: localStorage.getItem('uid') || '',
       repeat: 'none',
       remind: 'false',
     };
-    return this.http.post<Todo>(this.apiUrl, todo);
+    return this.http.post<Todo>(this.apiUrl, todo, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `${this.jwtToken}`,
+      }),
+    });
   }
 }

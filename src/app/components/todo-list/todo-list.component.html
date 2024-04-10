@@ -98,6 +98,7 @@
         </div>
         <div class="date-div">
           <label for="date">Due Date</label>
+
           <input
             type="date"
             [value]="clickData.date"
@@ -105,6 +106,17 @@
             (change)="dateChange($event)"
           />
         </div>
+
+        <div class="time-div">
+          <label for="time">Due Time</label>
+          <input
+            type="time"
+            [value]="clickData.time"
+            id="time"
+            (change)="timeChange($event)"
+          />
+        </div>
+
         <div class="repeat-div">
           <label for="dropdown-remind">Remind</label>
           <select
@@ -116,12 +128,12 @@
             <option value="false">No</option>
           </select>
         </div>
-      </div>
 
-      <div class="btn-grp">
-        <mat-icon (click)="closeModal()">close</mat-icon>
+        <div class="btn-grp">
+          <mat-icon (click)="closeModal()">close</mat-icon>
 
-        <mat-icon (click)="deleteTodo(clickData)">delete</mat-icon>
+          <mat-icon (click)="deleteTodo(clickData)">delete</mat-icon>
+        </div>
       </div>
     </div>
   </div>

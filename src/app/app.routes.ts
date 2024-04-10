@@ -6,6 +6,7 @@ import { AboutComponent } from './components/about/about.component';
 import { DownloadComponent } from './components/download/download.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { TermsComponent } from './components/terms/terms.component';
 
 export const routes: Routes = [
   {
@@ -33,5 +34,9 @@ export const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'terms',
+    component: TermsComponent,
   },
 ];

@@ -1,0 +1,25 @@
+.terms {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    max-width: 1200px;
+    padding: 1em;
+  }
+
+  a {
+    background: none;
+    color: var(--font-color);
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .terms {
+    .content {
+      max-width: 100%;
+    }
+  }
+}

@@ -12,7 +12,7 @@
     text-align: center;
 
     .title {
-      font-size: 6em;
+      font-size: 4em;
       line-height: 1.2;
       margin-bottom: 10px;
       font-weight: 500;
@@ -43,7 +43,27 @@
 
     a {
       background: none;
-      color: white;
+      color: var(--font-color);
+      text-decoration: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .to-do-page {
+    .container {
+      .title {
+        font-size: 3em;
+      }
+      .subtitle {
+        font-size: 1.5em;
+      }
+    }
+    .btn-grp {
+      flex-direction: column;
+      a {
+        margin: 0.5em 0;
+      }
     }
   }
 }
