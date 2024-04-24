@@ -8,11 +8,7 @@
     </div>
     <div class="profile-info-item">
       <h2 class="profile-info-item-label">Email</h2>
-      <input
-        class="profile-info-item-value"
-        type="email"
-        [(ngModel)]="user.email"
-      />
+      <p class="profile-info-item-value">{{ user.email }}</p>
     </div>
 
     <div class="profile-info-item">
@@ -26,9 +22,21 @@
   </div>
 
   <div class="profile-actions">
-    <button mat-raised-button color="primary" (click)="editUser()">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="editUser()"
+      class="profile-action"
+    >
       Edit Profile
     </button>
-    <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="logout()"
+      class="profile-action"
+    >
+      Logout
+    </button>
   </div>
 </div>

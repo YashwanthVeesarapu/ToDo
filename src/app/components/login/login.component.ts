@@ -62,20 +62,18 @@ export class LoginComponent implements OnInit {
       password: this.formControls['password'].value,
     };
 
-    this.authService.login(user).subscribe(
-      (u) => {
-        if (u.accessToken && u.username && u.id) {
-          localStorage.setItem('access_token', u.accessToken);
-          localStorage.setItem('username', u.username);
-          localStorage.setItem('uid', u.id);
-          delete u.password;
-          localStorage.setItem('user', JSON.stringify(u));
+    this.authService.login(user).subscribe({
+      next: (response) => {
+        if (response) {
           this.router.navigate(['/']);
+        } else {
+          alert('Invalid username or password');
         }
       },
-      (error) => {
-        alert(error.error);
-      }
-    );
+      error: (error) => {
+        console.log(error);
+        alert('Invalid username or password');
+      },
+    });
   }
 }

@@ -38,4 +38,25 @@
       }
     }
   }
+
+  .profile-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+
+    .profile-action {
+      padding: 10px;
+      margin: 0 8px;
+      border: 1px solid var(--foreground-color);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: var(--foreground-color);
+        color: #fff;
+      }
+    }
+  }
 }

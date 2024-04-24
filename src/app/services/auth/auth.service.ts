@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../../environment';
 
@@ -17,8 +17,20 @@ export class AuthService {
     this.apiUrl = environment.apiUrl + 'auth/';
   }
 
-  login(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl + 'login', user);
+  login(user: User): Observable<boolean> {
+    return this.http.post<User>(this.apiUrl + 'login', user).pipe(
+      map((response) => {
+        localStorage.setItem('access_token', response.accessToken!);
+        localStorage.setItem('uid', response.id!);
+        localStorage.setItem('username', response.username!);
+        localStorage.setItem('user', JSON.stringify(response));
+        return true; // Return true indicating successful login
+      }),
+      catchError((error) => {
+        console.log(error);
+        return [false]; // Return false indicating failed login
+      })
+    );
   }
 
   register(user: User): Observable<User> {
