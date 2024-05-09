@@ -28,21 +28,13 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Check if user is already authenticated
-    this.authenticated = this.authService.isAuthenticated();
-
-    if (this.authenticated) {
-      // User is already authenticated, redirect to another route
-      this.router.navigate(['/']);
-    }
-
     this.initForm();
   }
 
   initForm() {
     // Initialize the form
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required, Validators.minLength(4)],
+      username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
@@ -71,7 +63,6 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.log(error);
         alert('Invalid username or password');
       },
     });

@@ -9,27 +9,25 @@ import { environment } from '../../../../environment';
 })
 export class TodoService {
   apiUrl: string;
-  private jwtToken: string;
-  private uid: string;
 
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiUrl + 'todos';
-    this.jwtToken = localStorage.getItem('access_token') || '';
-    this.uid = localStorage.getItem('uid') || '';
   }
 
   getTodos(): Observable<Todo[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `${this.jwtToken}`,
+      Authorization: localStorage.getItem('access_token') || '',
     });
-    return this.http.get<Todo[]>(this.apiUrl + `?uid=${this.uid}`, {
-      headers: headers,
-    });
+    return this.http.get<Todo[]>(
+      this.apiUrl + `?uid=${localStorage.getItem('uid') || ''}`,
+      {
+        headers: headers,
+      }
+    );
   }
 
   editTodo(todo: Todo): Observable<Todo> {
-    console.log(todo);
     if (todo.repeat !== 'none' && todo.completed === true) {
       todo.completed = false;
       switch (todo.repeat) {
@@ -59,7 +57,6 @@ export class TodoService {
           break;
       }
     }
-    console.log(todo);
     return this.http.put<Todo>(this.apiUrl, todo);
   }
 
@@ -72,7 +69,7 @@ export class TodoService {
   deleteTodo(todo: Todo): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `${this.jwtToken}`,
+      Authorization: localStorage.getItem('access_token') || '',
     });
     return this.http.delete<string>(this.apiUrl + `/${todo.id}`, {
       headers: headers,
@@ -93,12 +90,12 @@ export class TodoService {
       username: localStorage.getItem('username') || '',
       uid: localStorage.getItem('uid') || '',
       repeat: 'none',
-      remind: 'false',
+      remind: 'true',
     };
     return this.http.post<Todo>(this.apiUrl, todo, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: `${this.jwtToken}`,
+        Authorization: localStorage.getItem('access_token') || '',
       }),
     });
   }

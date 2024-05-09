@@ -52,21 +52,17 @@ export class ProfileComponent {
   }
 
   editUser() {
-    console.log(this.user);
     this.userService.editUser(this.user).subscribe({
       next: (response) => {
-        console.log(response);
         alert('User updated successfully');
       },
       error: (error) => {
-        console.log(error);
         alert('Something went wrong');
       },
     });
   }
   logout() {
     this.authService.logout();
-
     // Redirect to login page
     this.router.navigate(['/login']);
   }

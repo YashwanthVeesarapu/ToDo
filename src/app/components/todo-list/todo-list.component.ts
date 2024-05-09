@@ -53,10 +53,8 @@ export class TodoListComponent implements OnInit {
         this.todos = todos;
         this.filterTodosByTab();
         this.loading = false;
-        console.log(todos);
       },
       error: (error) => {
-        console.log(error);
         if (error.status === 401) {
           alert('Please login to continue.');
           this.authService.logout();
@@ -74,7 +72,6 @@ export class TodoListComponent implements OnInit {
   }
 
   handleClick(todo: Todo) {
-    console.log(todo);
     if (this.clickData && this.clickData.id === todo.id) {
       this.openModal = !this.openModal;
     } else {
@@ -88,7 +85,6 @@ export class TodoListComponent implements OnInit {
     this.clickData.date = e.target.value;
     this.todoService.editTodoDate(this.clickData).subscribe({
       next: (todo) => {
-        console.log(todo);
         this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
         this.filterTodosByTab();
       },
@@ -101,7 +97,6 @@ export class TodoListComponent implements OnInit {
 
     this.todoService.editTodoDate(this.clickData).subscribe({
       next: (todo) => {
-        console.log(todo);
         this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
         this.filterTodosByTab();
       },
@@ -188,7 +183,6 @@ export class TodoListComponent implements OnInit {
   //Server
 
   repeatChange(e: any) {
-    console.log(e.target.value);
     this.clickData.repeat = e.target.value;
     this.todoService.editTodo(this.clickData).subscribe(
       (todo) => {
@@ -200,7 +194,6 @@ export class TodoListComponent implements OnInit {
   }
 
   remindChange(e: any) {
-    console.log(e.target.value);
     this.clickData.remind = e.target.value;
     this.todoService.editTodoDate(this.clickData).subscribe(
       (todo) => {
@@ -211,7 +204,6 @@ export class TodoListComponent implements OnInit {
     );
   }
   deleteTodo(todo: Todo) {
-    console.log(todo);
     if (!todo.id) return;
 
     this.todoService.deleteTodo(todo).subscribe(
@@ -252,7 +244,6 @@ export class TodoListComponent implements OnInit {
 
   starTodo(todo: Todo) {
     todo.important = !todo.important;
-    console.log(todo);
     this.todoService.editTodo(todo).subscribe(
       () => {
         this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));

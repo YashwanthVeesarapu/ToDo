@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../models/User';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../../environment';
 
@@ -24,11 +24,10 @@ export class AuthService {
         localStorage.setItem('uid', response.id!);
         localStorage.setItem('username', response.username!);
         localStorage.setItem('user', JSON.stringify(response));
-        return true; // Return true indicating successful login
+        return true;
       }),
       catchError((error) => {
-        console.log(error);
-        return [false]; // Return false indicating failed login
+        return of(false); // Return false indicating failed login
       })
     );
   }
@@ -46,7 +45,6 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('access_token');
-
     const localUser = localStorage.getItem('user');
 
     if (localUser) {
