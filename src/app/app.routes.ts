@@ -7,6 +7,7 @@ import { DownloadComponent } from './components/download/download.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { TermsComponent } from './components/terms/terms.component';
+import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,11 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'change-password',
+    component: ChangepasswordComponent,
     canActivate: [AuthGuard],
   },
   {

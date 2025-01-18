@@ -61,6 +61,8 @@ export class RegisterComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       timezone: [
         Intl.DateTimeFormat().resolvedOptions().timeZone,
         [Validators.required],
@@ -91,6 +93,8 @@ export class RegisterComponent implements OnInit {
       password: this.formControls['password'].value,
       timezone: this.formControls['timezone'].value,
       email: this.formControls['email'].value,
+      firstName: this.formControls['firstName'].value,
+      lastName: this.formControls['lastName'].value,
     };
 
     this.authService.register(user).subscribe(

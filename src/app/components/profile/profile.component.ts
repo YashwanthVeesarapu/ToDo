@@ -54,6 +54,7 @@ export class ProfileComponent {
   editUser() {
     this.userService.editUser(this.user).subscribe({
       next: (response) => {
+        localStorage.setItem('user', JSON.stringify(this.user));
         alert('User updated successfully');
       },
       error: (error) => {
@@ -65,5 +66,9 @@ export class ProfileComponent {
     this.authService.logout();
     // Redirect to login page
     this.router.navigate(['/login']);
+  }
+
+  changePassword() {
+    this.router.navigate(['/change-password']);
   }
 }

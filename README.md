@@ -16,6 +16,26 @@ This project is a simple and efficient todo application developed using Angular 
 - **Angular:** Front-end development framework for building dynamic web applications.
 - **Spring Boot:** Back-end framework for creating Java-based, production-grade applications.
 
+## How to Run
+
+1. Clone the repository:
+
+```bash
+git clone XXX
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd app
+```
+
+3. Run the Angular application:
+
+```bash
+ng serve
+```
+
 ## Contributing
 
 If you'd like to contribute to the project, follow these steps:

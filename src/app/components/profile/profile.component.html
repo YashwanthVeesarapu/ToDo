@@ -12,6 +12,24 @@
     </div>
 
     <div class="profile-info-item">
+      <h2 class="profile-info-item-label">First Name</h2>
+      <input
+        class="profile-info-item-value"
+        [(ngModel)]="user.firstName"
+        type="text"
+      />
+    </div>
+
+    <div class="profile-info-item">
+      <h2 class="profile-info-item-label">Last Name</h2>
+      <input
+        class="profile-info-item-value"
+        [(ngModel)]="user.lastName"
+        type="text"
+      />
+    </div>
+
+    <div class="profile-info-item">
       <h2 class="profile-info-item-label">Timezone</h2>
       <mat-select class="profile-info-item-value" [(ngModel)]="user.timezone">
         <mat-option *ngFor="let timezone of timezones" [value]="timezone.value">
@@ -28,13 +46,23 @@
       (click)="editUser()"
       class="profile-action"
     >
-      Edit Profile
+      Save
     </button>
+
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="changePassword()"
+      class="profile-action"
+    >
+      Change Password
+    </button>
+
     <button
       mat-raised-button
       color="warn"
       (click)="logout()"
-      class="profile-action"
+      class="profile-action danger-btn"
     >
       Logout
     </button>

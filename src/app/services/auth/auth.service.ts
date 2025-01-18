@@ -18,18 +18,22 @@ export class AuthService {
   }
 
   login(user: User): Observable<boolean> {
-    return this.http.post<User>(this.apiUrl + 'login', user).pipe(
-      map((response) => {
-        localStorage.setItem('access_token', response.accessToken!);
-        localStorage.setItem('uid', response.id!);
-        localStorage.setItem('username', response.username!);
-        localStorage.setItem('user', JSON.stringify(response));
-        return true;
-      }),
-      catchError((error) => {
-        return of(false); // Return false indicating failed login
+    return this.http
+      .post<User>(this.apiUrl + 'login', user, {
+        withCredentials: true,
       })
-    );
+      .pipe(
+        map((response: any) => {
+          // localStorage.setItem('access_token', response.accessToken!);
+          localStorage.setItem('uid', response.uid);
+          // localStorage.setItem('username', response.username!);
+          // localStorage.setItem('user', JSON.stringify(response));
+          return true;
+        }),
+        catchError((error) => {
+          return of(false); // Return false indicating failed login
+        })
+      );
   }
 
   register(user: User): Observable<User> {
@@ -37,25 +41,31 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
+    // localStorage.removeItem('access_token');
     localStorage.removeItem('uid');
-    localStorage.removeItem('username');
-    localStorage.removeItem('user');
+    // localStorage.removeItem('username');
+    // localStorage.removeItem('user');
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('access_token');
-    const localUser = localStorage.getItem('user');
+    // const token = localStorage.getItem('access_token');
+    // const localUser = localStorage.getItem('user');
+    const uid = localStorage.getItem('uid');
 
-    if (localUser) {
-      const user: User = JSON.parse(localUser);
-      if (user.id && user.username) {
-        return true;
-      }
+    if (uid) {
+      // const user: User = JSON.parse(localUser);
+      // if (!user.id || !user.username) {
+      //   return false;
+      // }
+      return true;
+
+      // check with server
     } else {
       return false;
     }
 
-    return !jwtHelper.isTokenExpired(token || '');
+    // return false;
+
+    // return !jwtHelper.isTokenExpired(token || '');
   }
 }

@@ -2,18 +2,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f4f4f4;
   flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  h1 {
+    font-weight: 600;
+  }
+
+  mat-select {
+    color: var(--foreground-color);
+  }
+
+  p,
+  h2 {
+    margin: 0;
+  }
 
   .profile-info {
     padding: 10px;
-    margin-bottom: 16px;
     box-sizing: border-box;
-    border: 1px solid var(--foreground-color);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    font-size: 14px;
-    min-width: 400px;
+    font-size: 1.2em;
+    min-width: 500px;
     display: flex;
     flex-direction: column;
 
@@ -21,7 +32,7 @@
       display: flex;
       justify-content: space-between;
       padding: 10px;
-      border-bottom: 1px solid #ebebeb;
+      border-bottom: 1px solid var(--border-color);
       align-items: center;
 
       .profile-info-item-label {
@@ -31,7 +42,6 @@
       }
 
       .profile-info-item-value {
-        color: #333;
         font-size: 1em;
         width: 250px;
         padding: 10px;
@@ -44,17 +54,18 @@
     justify-content: center;
     align-items: center;
     margin-top: 16px;
+    flex-direction: column;
+    gap: 10px;
 
     .profile-action {
       padding: 10px;
       margin: 0 8px;
-      border: 1px solid var(--foreground-color);
+      border: 1px solid var(--border-color);
       border-radius: 5px;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
 
       &:hover {
-        background-color: var(--foreground-color);
         color: #fff;
       }
     }

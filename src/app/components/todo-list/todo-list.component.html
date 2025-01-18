@@ -42,7 +42,17 @@
         <div class="loader" *ngIf="loading"></div>
 
         <div *ngIf="!loading" class="incomplete-div">
-          <h2>Tasks</h2>
+          <h2>
+            {{
+              selectedTab === "day"
+                ? "Today's Tasks"
+                : selectedTab === "important"
+                ? "Important Tasks"
+                : selectedTab === "planned"
+                ? "Planned Tasks"
+                : "All Tasks"
+            }}
+          </h2>
           <div *ngFor="let todo of filteredTodos">
             <app-todo
               *ngIf="!todo.completed"

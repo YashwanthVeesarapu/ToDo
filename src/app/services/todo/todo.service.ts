@@ -15,14 +15,14 @@ export class TodoService {
   }
 
   getTodos(): Observable<Todo[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: localStorage.getItem('access_token') || '',
-    });
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    // });
     return this.http.get<Todo[]>(
       this.apiUrl + `?uid=${localStorage.getItem('uid') || ''}`,
       {
-        headers: headers,
+        // headers: headers,
+        withCredentials: true,
       }
     );
   }
@@ -30,28 +30,37 @@ export class TodoService {
   editTodo(todo: Todo): Observable<Todo> {
     if (todo.repeat !== 'none' && todo.completed === true) {
       todo.completed = false;
+
       switch (todo.repeat) {
         case 'daily':
           todo.date = new Date(
             new Date(todo.date).setDate(new Date(todo.date).getDate() + 1)
-          ).toISOString();
+          )
+            .toISOString()
+            .split('T')[0];
           break;
         case 'weekly':
           todo.date = new Date(
             new Date(todo.date).setDate(new Date(todo.date).getDate() + 7)
-          ).toISOString();
+          )
+            .toISOString()
+            .split('T')[0];
           break;
         case 'monthly':
           todo.date = new Date(
             new Date(todo.date).setMonth(new Date(todo.date).getMonth() + 1)
-          ).toISOString();
+          )
+            .toISOString()
+            .split('T')[0];
           break;
         case 'yearly':
           todo.date = new Date(
             new Date(todo.date).setFullYear(
               new Date(todo.date).getFullYear() + 1
             )
-          ).toISOString();
+          )
+            .toISOString()
+            .split('T')[0];
           break;
         default:
           break;

@@ -154,6 +154,19 @@ export class TodoListComponent implements OnInit {
   }
 
   filterTodosByTab() {
+    // update click data
+    if (this.clickData.id) {
+      this.clickData = this.todos.find((t) => t.id === this.clickData.id) || {
+        id: '',
+        title: '',
+        date: '',
+        repeat: '',
+        time: '',
+        completed: false,
+        important: false,
+      };
+    }
+
     switch (this.selectedTab) {
       case 'day':
         this.filteredTodos = this.todos.filter((todo) => this.isDay(todo));
@@ -237,7 +250,7 @@ export class TodoListComponent implements OnInit {
     todo.completed = !todo.completed;
 
     this.todoService.editTodo(todo).subscribe((d) => {
-      this.todos = this.todos.map((t) => (t.id === todo.id ? d : t));
+      this.todos = this.todos.map((t) => (t.id === d.id ? d : t));
       this.filterTodosByTab();
     });
   }

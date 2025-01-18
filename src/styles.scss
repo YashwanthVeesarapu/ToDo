@@ -11,6 +11,7 @@
   --background-secondary-color: #dfdfdf;
   --foreground-color: #333333;
   --highlight-color: #009688;
+  --border-color: rgba(0, 0, 0, 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,6 +20,7 @@
     --foreground-color: #f4f4f4;
     --secondary-color: #2c3e50;
     --background-secondary-color: #2c3e50;
+    --border-color: rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -58,6 +60,11 @@ a {
   animation: spin 1s linear infinite;
   margin: auto;
   margin-top: 20px;
+}
+
+.danger-btn {
+  background-color: #d9534f;
+  color: white;
 }
 
 @keyframes spin {
