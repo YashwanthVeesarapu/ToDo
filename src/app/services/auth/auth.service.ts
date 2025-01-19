@@ -50,6 +50,7 @@ export class AuthService {
   isAuthenticated(): boolean {
     // const token = localStorage.getItem('access_token');
     // const localUser = localStorage.getItem('user');
+
     const uid = localStorage.getItem('uid');
 
     if (uid) {

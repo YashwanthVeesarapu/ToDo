@@ -3,7 +3,6 @@ import { User } from '../../models/User';
 import { UserService } from '../../services/user/user.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
@@ -48,7 +47,9 @@ export class ProfileComponent {
   ) {}
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userService.getUser().subscribe((response) => {
+      this.user = response;
+    });
   }
 
   editUser() {
