@@ -1,45 +1,61 @@
-pipeline{
-    agent any;
-    // Angular project
-    stages{
-        // Checkout the code from the repository 
+pipeline {
+    agent any
+
+    // Angular project pipeline
+    stages {
+        // Checkout the code from the repository
         stage('Checkout Code') {
             steps {
-                // Clone the Git repository
+                echo 'Checking out the code from the repository'
                 git branch: 'main', 
                     credentialsId: 'bfc88f96-eb1e-4df4-99cb-66f945cc956a', 
-                    url: 'https://github.com/YashwanthVeesarapu/ToDo-Server.git' 
+                    url: 'https://github.com/YashwanthVeesarapu/ToDo-Server.git'
             }
         }
 
-        stage('Install Dependencies'){
-            steps{
-                echo 'Building the project';
-                sh 'npm install';  
+        // Install project dependencies
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing project dependencies'
+                sh 'npm install'
             }
         }
 
-        stage('Build'){
-            steps{
-                echo 'Testing the project';
-                sh 'ng build';
+        // Build the Angular project
+        stage('Build') {
+            steps {
+                echo 'Building the Angular project'
+                sh 'ng build --prod' // Use --prod for a production-ready build
             }
         }
-        // Populate the firebase token
-        stage('Firebase login'){
-            steps{
-                echo 'Login to firebase';
-                withCredentials([string(credentialsId: 'firebase-token', variable: 'FIREBASE_TOKEN')]){
-                    // Save the token in the environment variable GOOGLE_APPLICATION_CREDENTIALS
-                    sh 'echo $FIREBASE_TOKEN > $GOOGLE_APPLICATION_CREDENTIALS'; 
+
+        // Firebase authentication and token configuration
+        stage('Firebase Login') {
+            steps {
+                echo 'Logging into Firebase'
+                withCredentials([string(credentialsId: 'firebase-token', variable: 'FIREBASE_TOKEN')]) {
+                    // Save the token in the environment variable
+                    sh 'echo $FIREBASE_TOKEN > $GOOGLE_APPLICATION_CREDENTIALS'
                 }
             }
         }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying the project';
-                sh 'firebase deploy --only hosting';
+
+        // Deploy to Firebase
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the Angular project to Firebase'
+                sh 'firebase deploy --only hosting'
             }
+        }
+    }
+
+    // Optional post section for notifications or cleanup
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
