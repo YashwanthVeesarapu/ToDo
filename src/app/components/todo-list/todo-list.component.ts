@@ -60,7 +60,10 @@ export class TodoListComponent implements OnInit {
           this.authService.logout();
           // navigate to login page
           this.router.navigate(['/login']);
-        } else alert('Something went wrong.');
+        } else {
+          alert('Something went wrong.');
+          this.authService.logout();
+        }
         this.loading = false;
       },
     });
@@ -105,6 +108,18 @@ export class TodoListComponent implements OnInit {
   }
 
   hasCompletedTodos(): boolean {
+    if (this.filteredTodos.length === 0) return false;
+
+    if (this.filteredTodos.some((todo) => todo.completed)) {
+      // sort by date only the completed todos
+      this.filteredTodos = this.filteredTodos.sort((a, b) => {
+        if (a.date && b.date && a.completed && b.completed) {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        }
+        return 0;
+      });
+    }
+
     return this.filteredTodos.some((todo) => todo.completed);
   }
 
