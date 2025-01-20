@@ -9,7 +9,7 @@ pipeline {
                 echo 'Checking out the code from the repository'
                 git branch: 'main', 
                     credentialsId: 'bfc88f96-eb1e-4df4-99cb-66f945cc956a', 
-                    url: 'https://github.com/YashwanthVeesarapu/ToDo-Server.git'
+                    url: 'https://github.com/YashwanthVeesarapu/ToDo.git'
             }
         }
 
