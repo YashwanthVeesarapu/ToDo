@@ -13,9 +13,10 @@ pipeline {
             }
         }
 
+
         // Install project dependencies
         stage('Install Dependencies') {
-            steps {
+            script {
                 echo 'Installing project dependencies'
                 sh 'npm install'
             }
@@ -25,7 +26,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the Angular project'
-                sh 'ng build --prod' // Use --prod for a production-ready build
+                sh 'npm run build'
             }
         }
 
