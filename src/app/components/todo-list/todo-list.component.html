@@ -65,7 +65,7 @@
         </div>
         <div class="complete-div" *ngIf="hasCompletedTodos()">
           <h2>Completed</h2>
-          <div *ngFor="let todo of filteredTodos">
+          <div *ngFor="let todo of completedTodos">
             <app-todo
               *ngIf="todo.completed"
               [todo]="todo"

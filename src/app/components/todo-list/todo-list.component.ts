@@ -27,6 +27,7 @@ export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
   loading: boolean = false;
   filteredTodos: Todo[] = [];
+  completedTodos: Todo[] = [];
   clickData: Todo = {
     id: '',
     title: '',
@@ -110,17 +111,12 @@ export class TodoListComponent implements OnInit {
   hasCompletedTodos(): boolean {
     if (this.filteredTodos.length === 0) return false;
 
-    if (this.filteredTodos.some((todo) => todo.completed)) {
-      // sort by date only the completed todos
-      this.filteredTodos = this.filteredTodos.sort((a, b) => {
-        if (a.date && b.date && a.completed && b.completed) {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        }
-        return 0;
-      });
-    }
+    this.completedTodos = this.filteredTodos.filter((todo) => todo.completed);
+    this.completedTodos = this.completedTodos.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
 
-    return this.filteredTodos.some((todo) => todo.completed);
+    return this.completedTodos.length > 0;
   }
 
   getTasksForTab(tab: string): number {
