@@ -45,12 +45,12 @@ pipeline {
                 sh 'npm install -g firebase-tools'
             }
         }
-        
+
         // Deploy to Firebase
         stage('Deploy') {
             steps {
                 echo 'Deploying the Angular project to Firebase'
-                sh 'firebase deploy --only hosting'
+                sh 'sudo firebase deploy --only hosting'
             }
         }
     }
