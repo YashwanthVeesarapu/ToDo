@@ -114,7 +114,7 @@ export class TodoListComponent implements OnInit {
       // sort by date only the completed todos
       this.filteredTodos = this.filteredTodos.sort((a, b) => {
         if (a.date && b.date && a.completed && b.completed) {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
         }
         return 0;
       });
