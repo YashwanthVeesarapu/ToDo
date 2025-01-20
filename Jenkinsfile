@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     // Angular project pipeline
+
+    environment {
+        // firebase json file
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('FIREBASE_TOKEN')
+    }
+
     stages {
         // Checkout the code from the repository
         stage('Checkout Code') {
@@ -32,17 +38,14 @@ pipeline {
             }
         }
 
-        // Firebase authentication and token configuration
-        stage('Firebase Login') {
+        // Install Firebase CLI
+        stage('Install Firebase CLI') {
             steps {
-                echo 'Logging into Firebase'
-                withCredentials([string(credentialsId: 'firebase-token', variable: 'FIREBASE_TOKEN')]) {
-                    // Save the token in the environment variable
-                    sh 'echo $FIREBASE_TOKEN > $GOOGLE_APPLICATION_CREDENTIALS'
-                }
+                echo 'Installing Firebase CLI'
+                sh 'npm install -g firebase-tools'
             }
         }
-
+        
         // Deploy to Firebase
         stage('Deploy') {
             steps {
