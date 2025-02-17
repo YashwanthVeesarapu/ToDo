@@ -66,7 +66,7 @@ export class TodoService {
           break;
       }
     }
-    return this.http.put<Todo>(this.apiUrl, todo);
+    return this.http.put<Todo>(this.apiUrl, todo, { withCredentials: true });
   }
 
   editTodoDate(todo: Todo): Observable<Todo> {
@@ -78,11 +78,11 @@ export class TodoService {
   deleteTodo(todo: Todo): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: localStorage.getItem('access_token') || '',
     });
     return this.http.delete<string>(this.apiUrl + `/${todo.id}`, {
       headers: headers,
       body: todo,
+      withCredentials: true,
     });
   }
 
@@ -104,8 +104,8 @@ export class TodoService {
     return this.http.post<Todo>(this.apiUrl, todo, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('access_token') || '',
       }),
+      withCredentials: true,
     });
   }
 }
