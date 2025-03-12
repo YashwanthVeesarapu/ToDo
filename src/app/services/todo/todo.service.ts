@@ -72,7 +72,9 @@ export class TodoService {
   editTodoDate(todo: Todo): Observable<Todo> {
     todo.repeat = 'none';
     todo.completed = false;
-    return this.http.put<Todo>(this.apiUrl, todo);
+    return this.http.put<Todo>(this.apiUrl, todo, {
+      withCredentials: true,
+    });
   }
 
   deleteTodo(todo: Todo): Observable<string> {
