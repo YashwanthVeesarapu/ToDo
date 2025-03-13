@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script{
                 echo 'Building the Angular project'
-                sh 'ng build'
+                sh 'npm run build'
                 }
             }
         }
