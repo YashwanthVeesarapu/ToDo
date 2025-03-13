@@ -45,7 +45,7 @@ pipeline {
         stage('Install Firebase CLI') {
             steps {
                 echo 'Installing Firebase CLI'
-                sh 'npm install -g firebase-tools'
+                sh 'npm install firebase-tools'
             }
         }
         
@@ -53,7 +53,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying the Angular project to Firebase'
-                sh 'firebase deploy --only hosting'
+                sh 'npx firebase deploy --only hosting'
             }
         }
     }
