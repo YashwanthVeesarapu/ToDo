@@ -11,20 +11,17 @@ export class TodoService {
   apiUrl: string;
 
   constructor(private http: HttpClient) {
-    this.apiUrl = environment.apiUrl + 'todos';
+    this.apiUrl = environment.apiUrl + '/todos';
   }
 
   getTodos(): Observable<Todo[]> {
     // const headers = new HttpHeaders({
     //   'Content-Type': 'application/json',
     // });
-    return this.http.get<Todo[]>(
-      this.apiUrl + `?uid=${localStorage.getItem('uid') || ''}`,
-      {
-        // headers: headers,
-        withCredentials: true,
-      }
-    );
+    return this.http.get<Todo[]>(this.apiUrl, {
+      // headers: headers,
+      withCredentials: true,
+    });
   }
 
   editTodo(todo: Todo): Observable<Todo> {

@@ -1,3 +1,4 @@
+// todo.component.ts (with animations)
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Todo } from '../../models/Todo';
 import { CommonModule } from '@angular/common';
@@ -8,7 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   standalone: true,
   imports: [CommonModule, MatCheckboxModule],
   templateUrl: './todo.component.html',
-  styleUrl: './todo.component.scss',
+  styleUrls: ['./todo.component.scss'],
 })
 export class TodoComponent implements OnInit {
   @Input() todo!: Todo;

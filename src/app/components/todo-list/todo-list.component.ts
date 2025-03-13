@@ -1,14 +1,21 @@
+// todo-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../models/Todo';
 import { CommonModule } from '@angular/common';
 import { TodoComponent } from '../todo/todo.component';
 import { TodoService } from '../../services/todo/todo.service';
-
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-todo-list',
@@ -21,7 +28,28 @@ import { Router } from '@angular/router';
     MatSelectModule,
   ],
   templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.scss',
+  styleUrls: ['./todo-list.component.scss'],
+  animations: [
+    trigger('tabSlide', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)', opacity: 0 }),
+        animate(
+          '0.5s ease-out',
+          style({ transform: 'translateX(0)', opacity: 1 })
+        ),
+      ]),
+    ]),
+    trigger('todosFade', [
+      state('open', style({ width: '55vw', opacity: 1 })),
+      state('close', style({ width: '75vw', opacity: 1 })),
+      transition('open <=> close', animate('0.5s ease')),
+    ]),
+    trigger('modalSlide', [
+      state('show', style({ transform: 'translateX(0)', opacity: 1 })),
+      state('hide', style({ transform: 'translateX(100%)', opacity: 0 })),
+      transition('show <=> hide', animate('0.5s ease')),
+    ]),
+  ],
 })
 export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
@@ -59,7 +87,6 @@ export class TodoListComponent implements OnInit {
         if (error.status === 401) {
           alert('Please login to continue.');
           this.authService.logout();
-          // navigate to login page
           this.router.navigate(['/login']);
         } else {
           alert('Something went wrong.');
@@ -81,7 +108,6 @@ export class TodoListComponent implements OnInit {
     } else {
       this.clickData = todo;
       this.openModal = true;
-      this.clickData = todo;
     }
   }
 
@@ -98,7 +124,6 @@ export class TodoListComponent implements OnInit {
 
   timeChange(e: any) {
     this.clickData.time = e.target.value;
-
     this.todoService.editTodoDate(this.clickData).subscribe({
       next: (todo) => {
         this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
@@ -110,12 +135,10 @@ export class TodoListComponent implements OnInit {
 
   hasCompletedTodos(): boolean {
     if (this.filteredTodos.length === 0) return false;
-
     this.completedTodos = this.filteredTodos.filter((todo) => todo.completed);
     this.completedTodos = this.completedTodos.sort((a, b) => {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
-
     return this.completedTodos.length > 0;
   }
 
@@ -125,16 +148,11 @@ export class TodoListComponent implements OnInit {
         case 'day':
           return this.isDay(todo) && !todo.completed;
         case 'important':
-          // Logic to filter tasks for "Important"
-          // For example, you might want to filter tasks marked as important
-          return this.isImportant(todo) /* your condition for Important */;
+          return this.isImportant(todo) && !todo.completed;
         case 'planned':
-          // Logic to filter tasks for "Planned"
-          // For example, you might want to filter tasks with a specific planned date
-          return this.isPlanned(todo) /* your condition for Planned */;
+          return this.isPlanned(todo) && !todo.completed;
         case 'tasks':
-          // Logic to filter all tasks
-          return todo.completed === false;
+          return !todo.completed;
         default:
           return false;
       }
@@ -145,9 +163,8 @@ export class TodoListComponent implements OnInit {
     if (todo.date) {
       const currentDate = new Date();
       const todoDate = new Date(todo.date);
-
       return (
-        (todoDate < currentDate && todo.completed === false) ||
+        (todoDate < currentDate && !todo.completed) ||
         (currentDate.getDate() === todoDate.getDate() &&
           currentDate.getMonth() === todoDate.getMonth() &&
           currentDate.getFullYear() === todoDate.getFullYear())
@@ -165,7 +182,6 @@ export class TodoListComponent implements OnInit {
   }
 
   filterTodosByTab() {
-    // update click data
     if (this.clickData.id) {
       this.clickData = this.todos.find((t) => t.id === this.clickData.id) || {
         id: '',
@@ -177,7 +193,6 @@ export class TodoListComponent implements OnInit {
         important: false,
       };
     }
-
     switch (this.selectedTab) {
       case 'day':
         this.filteredTodos = this.todos.filter((todo) => this.isDay(todo));
@@ -191,20 +206,16 @@ export class TodoListComponent implements OnInit {
         this.filteredTodos = this.todos.filter((todo) => this.isPlanned(todo));
         break;
       case 'tasks':
-        this.filteredTodos = this.todos; // Display all tasks for "Tasks" tab
+        this.filteredTodos = this.todos;
         break;
       default:
         this.filteredTodos = [];
-        break;
     }
   }
 
-  //Modal Functions
   closeModal() {
     this.openModal = false;
   }
-
-  //Server
 
   repeatChange(e: any) {
     this.clickData.repeat = e.target.value;
@@ -227,28 +238,21 @@ export class TodoListComponent implements OnInit {
       (error) => alert(error.error)
     );
   }
+
   deleteTodo(todo: Todo) {
     if (!todo.id) return;
-
     this.todoService.deleteTodo(todo).subscribe(
       () => {
         this.todos = this.todos.filter((t) => t.id !== todo.id);
         this.filterTodosByTab();
         this.openModal = false;
       },
-      (error) => {
-        alert(error.error);
-      }
+      (error) => alert(error.error)
     );
   }
 
   addTask(e: KeyboardEvent, title: HTMLInputElement) {
-    if (e.key !== 'Enter') return;
-
-    if (title.value.trim() === '') {
-      return;
-    }
-
+    if (e.key !== 'Enter' || title.value.trim() === '') return;
     this.todoService.addTask(title.value).subscribe((todo) => {
       this.todos.push(todo);
       this.filterTodosByTab();
@@ -257,9 +261,7 @@ export class TodoListComponent implements OnInit {
   }
 
   completeTodo(todo: Todo) {
-    this.clickData;
     todo.completed = !todo.completed;
-
     this.todoService.editTodo(todo).subscribe((d) => {
       this.todos = this.todos.map((t) => (t.id === d.id ? d : t));
       this.filterTodosByTab();

@@ -1,18 +1,23 @@
+<!-- header.component.html -->
 <header>
-  <h1 (click)="navigateTo('/')">{{ title }}</h1>
+  <h1 (click)="navigateTo('/')" class="title-warp">
+    {{ title }}
+    <span class="energy-trail"></span>
+  </h1>
   <div class="nav">
     <mat-icon
-      *ngIf="auth.isAuthenticated()"
+      *ngIf="authService.user$ | async as user"
       (click)="onLogoutClick()"
-      type="button"
+      class="nav-icon"
+      aria-label="Logout"
     >
       logout
     </mat-icon>
-
     <mat-icon
-      *ngIf="auth.isAuthenticated()"
+      *ngIf="authService.user$ | async as user"
       (click)="navigateTo('/profile')"
-      type="button"
+      class="nav-icon"
+      aria-label="Profile"
     >
       person
     </mat-icon>

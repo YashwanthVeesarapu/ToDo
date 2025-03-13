@@ -1,11 +1,14 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18-alpine'        
+        }
+    }
 
     // Angular project pipeline
-
     environment {
         // firebase json file
-        GOOGLE_APPLICATION_CREDENTIALS = credentials('FIREBASE_TOKEN')
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('MAIN_FIREBASE_KEY')
     }
 
     stages {
@@ -33,7 +36,7 @@ pipeline {
             steps {
                 script{
                 echo 'Building the Angular project'
-                sh 'npm run build'
+                sh 'ng build'
                 }
             }
         }
@@ -42,7 +45,7 @@ pipeline {
         stage('Install Firebase CLI') {
             steps {
                 echo 'Installing Firebase CLI'
-                sh 'sudo npm install -g firebase-tools'
+                sh 'npm install -g firebase-tools'
             }
         }
         
@@ -52,16 +55,6 @@ pipeline {
                 echo 'Deploying the Angular project to Firebase'
                 sh 'firebase deploy --only hosting'
             }
-        }
-    }
-
-    // Optional post section for notifications or cleanup
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }

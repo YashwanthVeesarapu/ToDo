@@ -16,10 +16,10 @@ export class HeaderComponent implements OnInit {
   title: string = 'Taskify';
   @Output() onLogout = new EventEmitter<void>();
 
-  public auth: AuthService;
+  public authService: AuthService;
 
-  constructor(auth: AuthService, private router: Router) {
-    this.auth = auth;
+  constructor(authService: AuthService, private router: Router) {
+    this.authService = authService;
   }
 
   ngOnInit(): void {}
@@ -30,6 +30,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogoutClick(): void {
-    this.onLogout.emit();
+    this.authService.logout();
   }
 }

@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../models/User';
 import { CommonModule } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -47,12 +48,12 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authenticated = this.authService.isAuthenticated();
-
-    if (this.authenticated) {
-      // User is already authenticated, redirect to another route
-      this.router.navigate(['/']); // Replace with your desired route
-    }
+    this.authService.user$.pipe(take(1)).subscribe((user) => {
+      if (user) {
+        // User is already authenticated; redirect to home.
+        this.router.navigate(['/']);
+      }
+    });
 
     this.initForm();
   }

@@ -1,69 +1,109 @@
+/* todo.component.scss */
 .todo {
-  padding: 5px 10px;
-  margin: 5px 10px;
-  border-bottom: 1px solid #ebebeb;
+  padding: 10px 15px;
+  margin: 10px;
+  border-radius: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #3498db;
-  border-radius: 1em;
-  animation: popIn 0.5s forwards;
+  background: linear-gradient(135deg, #1c2526, #0f1419);
+  border: 1px solid rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  input {
-    display: flex;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  }
+
+  .todo-checkbox {
     flex: 0.05;
+    color: #007bff;
+
+    ::ng-deep .mat-checkbox-frame {
+      border-color: #b3c7d6;
+    }
+
+    ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+      background-color: #007bff !important;
+    }
   }
 
   .todo-text {
-    display: flex;
-    flex-grow: 1;
-    color: white;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    margin-left: 10px;
-    width: 100%;
     flex: 0.875;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
     overflow: hidden;
     word-wrap: break-word;
     min-width: 100px;
+    cursor: pointer;
 
     h3 {
       margin: 0;
+      font-size: 1.2em;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: wrap;
-      max-lines: 2;
+      white-space: nowrap;
       max-width: 100%;
+      transition: color 0.3s ease;
     }
 
-    &:last-child {
-      border-bottom: none;
-    }
     p {
-      font-size: 0.8em;
-      margin: 0;
+      font-size: 0.9em;
+      margin: 5px 0 0 0;
+      color: #b3c7d6;
+    }
+
+    &:hover h3 {
+      color: #007bff;
     }
   }
 
-  span {
-    display: flex;
+  .star {
     flex: 0.075;
-    color: white;
+    font-size: 1.5em;
+    color: #b3c7d6;
     cursor: pointer;
-    justify-content: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+
+    &.important {
+      color: gold;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    }
+
+    &.is-complete {
+      color: #666;
+    }
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
-  .important {
-    color: gold;
+  &.completed {
+    background: linear-gradient(135deg, #2a2f33, #1a1e22);
+    opacity: 0.8;
+
+    h3 {
+      text-decoration: line-through;
+      color: #666;
+    }
+
+    .todo-text p {
+      color: #888;
+    }
   }
 }
 
-.completed {
-  color: #ebebeb;
-  background-color: gray;
-
-  h3 {
-    text-decoration: line-through;
+@keyframes popIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }

@@ -1,72 +1,68 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../models/User';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, of } from 'rxjs';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { environment } from '../../../../environment';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, finalize, shareReplay, tap } from 'rxjs/operators';
 
-const jwtHelper = new JwtHelperService();
+import { User } from '../../models/User';
+import { UserCredentials } from '../../models/UserCredentials';
+import { environment } from '../../../../environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  apiUrl: string;
+  private userSubject = new BehaviorSubject<User | null>(null);
+  public user$ = this.userSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.apiUrl = environment.apiUrl + 'auth/';
-  }
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public isLoading$ = this.loadingSubject.asObservable();
 
-  login(user: User): Observable<boolean> {
+  private apiUrl = `${environment.apiUrl}/auth`;
+
+  constructor(private http: HttpClient) {}
+
+  /** Get the current user on app startup */
+  getCurrentUser(): Observable<User | null> {
+    if (this.userSubject.value && !this.loadingSubject.value) return this.user$; // Return cached state
+
+    this.loadingSubject.next(true); // Start loading indicator
+
     return this.http
-      .post<User>(this.apiUrl + 'login', user, {
-        withCredentials: true,
-      })
+      .get<User>(`${this.apiUrl}/me`, { withCredentials: true })
       .pipe(
-        map((response: any) => {
-          // localStorage.setItem('access_token', response.accessToken!);
-          localStorage.setItem('uid', response.uid);
-          // localStorage.setItem('username', response.username!);
-          // localStorage.setItem('user', JSON.stringify(response));
-          return true;
+        tap((user) => this.userSubject.next(user)),
+        catchError(() => {
+          this.userSubject.next(null);
+          return of(null);
         }),
-        catchError((error) => {
-          return of(false); // Return false indicating failed login
-        })
+        finalize(() => this.loadingSubject.next(false)),
+        shareReplay(1) // Cache response for multiple subscribers
       );
   }
 
+  /** Login user and update state */
+  login(credentials: UserCredentials): Observable<User> {
+    return this.http
+      .post<User>(`${this.apiUrl}/login`, credentials, {
+        withCredentials: true,
+      })
+      .pipe(tap((user) => this.userSubject.next(user)));
+  }
+
+  /** Register new user */
   register(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl + 'register', user);
+    return this.http.post<User>(`${this.apiUrl}/register`, user);
   }
 
-  logout() {
-    // localStorage.removeItem('access_token');
-    localStorage.removeItem('uid');
-    // localStorage.removeItem('username');
-    // localStorage.removeItem('user');
-  }
-
-  isAuthenticated(): boolean {
-    // const token = localStorage.getItem('access_token');
-    // const localUser = localStorage.getItem('user');
-
-    const uid = localStorage.getItem('uid');
-
-    if (uid) {
-      // const user: User = JSON.parse(localUser);
-      // if (!user.id || !user.username) {
-      //   return false;
-      // }
-      return true;
-
-      // check with server
-    } else {
-      return false;
-    }
-
-    // return false;
-
-    // return !jwtHelper.isTokenExpired(token || '');
+  /** Logout user and clear state */
+  logout(): void {
+    this.http
+      .post(`${this.apiUrl}/logout`, {}, { withCredentials: true })
+      .pipe(
+        tap(() => {
+          this.userSubject.next(null);
+        }) // Clear user state only after successful logout
+      )
+      .subscribe();
   }
 }

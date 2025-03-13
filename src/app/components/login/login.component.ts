@@ -9,6 +9,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { User } from '../../models/User';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { UserCredentials } from '../../models/UserCredentials';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +30,12 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // this.authService.user$.pipe(take(1)).subscribe((user) => {
+    //   if (user) {
+    //     // User is already authenticated; redirect to home.
+    //     this.router.navigate(['/']);
+    //   }
+    // });
     this.initForm();
   }
 
@@ -49,18 +57,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const user: User = {
+    const userCredentials: UserCredentials = {
       username: this.loginForm.controls['username'].value,
       password: this.formControls['password'].value,
     };
 
-    this.authService.login(user).subscribe({
-      next: (response) => {
-        if (response) {
-          this.router.navigate(['/']);
-        } else {
-          alert('Invalid username or password');
-        }
+    this.authService.login(userCredentials).subscribe({
+      next: (user) => {
+        this.router.navigate(['/']);
       },
       error: (error) => {
         alert('Invalid username or password');

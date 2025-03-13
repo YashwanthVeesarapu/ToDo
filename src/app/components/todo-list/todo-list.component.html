@@ -1,6 +1,7 @@
+<!-- todo-list.component.html -->
 <div class="outer-todos">
   <div class="todos-comp">
-    <div class="todos-tab">
+    <div class="todos-tab" [@tabSlide]>
       <div
         class="todos-tab-item"
         [class.active]="selectedTab === 'day'"
@@ -26,7 +27,6 @@
           Planned
         </div>
       </div>
-
       <div
         class="todos-tab-item"
         [class.active]="selectedTab === 'tasks'"
@@ -36,11 +36,9 @@
       </div>
     </div>
 
-    <div [class]="openModal ? 'todos-show open' : 'todos-show close'">
-      <!-- Incomplete Todos -->
+    <div class="todos-show" [@todosFade]="openModal ? 'open' : 'close'">
       <div class="todos-area">
         <div class="loader" *ngIf="loading"></div>
-
         <div *ngIf="!loading" class="incomplete-div">
           <h2>
             {{
@@ -88,7 +86,7 @@
       </div>
     </div>
 
-    <div [ngClass]="openModal ? 'modal-show show' : 'modal-show hide'">
+    <div class="modal-show" [@modalSlide]="openModal ? 'show' : 'hide'">
       <div class="modal-main">
         <h2>{{ clickData.title }}</h2>
         <div class="repeat-div">
@@ -108,7 +106,6 @@
         </div>
         <div class="date-div">
           <label for="date">Due Date</label>
-
           <input
             type="date"
             [value]="clickData.date"
@@ -116,7 +113,6 @@
             (change)="dateChange($event)"
           />
         </div>
-
         <div class="time-div">
           <label for="time">Due Time</label>
           <input
@@ -126,7 +122,6 @@
             (change)="timeChange($event)"
           />
         </div>
-
         <div class="repeat-div">
           <label for="dropdown-remind">Remind</label>
           <select
@@ -138,10 +133,8 @@
             <option value="false">No</option>
           </select>
         </div>
-
         <div class="btn-grp">
           <mat-icon (click)="closeModal()">close</mat-icon>
-
           <mat-icon (click)="deleteTodo(clickData)">delete</mat-icon>
         </div>
       </div>

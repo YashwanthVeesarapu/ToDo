@@ -16,7 +16,7 @@ export class UserService {
   // private jwtToken: string;
 
   constructor(private http: HttpClient) {
-    this.apiUrl = environment.apiUrl + 'user';
+    this.apiUrl = environment.apiUrl + '/user';
     // this.jwtToken = localStorage.getItem('access_token') || '';
   }
 

@@ -6,27 +6,33 @@
 :root {
   --header-height: 50px;
   --primary-color: #3498db;
-  --secondary-color: #ecf0f1;
-  --background-color: #f4f4f4;
+  --secondary-color: #2c3e50;
+  --background-color: #0f1419;
   --background-secondary-color: #dfdfdf;
-  --foreground-color: #333333;
+  --foreground-color: #fff;
   --highlight-color: #009688;
   --border-color: rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #333333;
-    --foreground-color: #f4f4f4;
-    --secondary-color: #2c3e50;
-    --background-secondary-color: #2c3e50;
-    --border-color: rgba(255, 255, 255, 0.2);
-  }
-}
+// @media (prefers-color-scheme: dark) {
+//   :root {
+//     --background-color: #0f1419;
+//     --foreground-color: #fff;
+//     --secondary-color: #2c3e50;
+//     --background-secondary-color: #2c3e50;
+//     --border-color: rgba(255, 255, 255, 0.2);
+//   }
+// }
 
 body {
+  font-family: "Inter", sans-serif;
+  font-weight: 400; /* Regular weight for body text */
+  font-size: 16px; /* Base size */
   background-color: var(--background-color);
   color: var(--foreground-color);
+
+  // color: #fff; /* Default for dark theme */
+  // background: #0f1419; /* App-wide background */
   max-width: 100vw;
   overflow: hidden;
 }

@@ -1,14 +1,58 @@
-<div class="to-do-page">
-  <div class="container">
-    <h1 class="title">Taskify by Redsols</h1>
-    <p class="subtitle">Unleash Your Productivity: Conquer Your Tasks</p>
-    <div class="btn-grp">
-      <a routerLink="/" class="to-do-page__button">Get started</a>
-      <!-- <a routerLink="/" class="to-do-page__button">Learn more</a> -->
+<!-- about.component.html -->
+<div class="taskify-universe">
+  <!-- Main Feature Section -->
+  <main class="feature-galaxy">
+    <div class="node-container">
+      <section
+        class="task-node"
+        [@floatIn]
+        [@pulseGlow]="cardState[0]"
+        (mouseenter)="toggleGlow(0)"
+        (mouseleave)="toggleGlow(0)"
+      >
+        <div class="node-orb">
+          <span class="orb-signal">✉️</span>
+        </div>
+        <h2 class="node-title">Smart Email Reminders</h2>
+        <p class="node-desc">
+          Dynamic reminders pulse through your inbox, adapting to your rhythm in
+          real-time.
+        </p>
+        <div class="node-trail"></div>
+      </section>
+
+      <section
+        class="task-node"
+        [@floatIn]
+        [@pulseGlow]="cardState[1]"
+        (mouseenter)="toggleGlow(1)"
+        (mouseleave)="toggleGlow(1)"
+      >
+        <div class="node-orb">
+          <span class="orb-signal">📱💻</span>
+        </div>
+        <h2 class="node-title">Instant Cross-Device Sync</h2>
+        <p class="node-desc">
+          Tasks teleport across your devices with seamless, lightning-fast
+          precision.
+        </p>
+        <div class="node-trail"></div>
+      </section>
     </div>
-    <!-- <a class="to-do-page__download-link" href="#">Download To Do</a> -->
-    <div class="terms">
-      <a routerLink="/terms" class="to-do-page__legal-text">Terms of use</a>
+
+    <div class="auth-links">
+      <a href="/login" class="auth-link" (click)="navigateTo('/login', $event)"
+        >Login</a
+      >
+      <a
+        href="/register"
+        class="auth-link"
+        (click)="navigateTo('/register', $event)"
+        >Signup</a
+      >
     </div>
-  </div>
+  </main>
+
+  <div class="cosmic-dust"></div>
+  <div class="energy-waves"></div>
 </div>

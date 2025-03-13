@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { AuthGuard } from './AuthGaurd';
+import { AuthGuard } from './auth.guard';
 import { AboutComponent } from './components/about/about.component';
 import { DownloadComponent } from './components/download/download.component';
 import { RegisterComponent } from './components/register/register.component';
