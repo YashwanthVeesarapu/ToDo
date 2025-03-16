@@ -59,7 +59,7 @@ import { Router } from '@angular/router';
   ],
 })
 export class AboutComponent implements OnInit {
-  cardState: string[] = ['normal', 'normal'];
+  cardState: string[] = ['normal', 'normal', 'normal'];
 
   constructor(private router: Router) {}
 
