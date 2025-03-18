@@ -16,6 +16,7 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -26,6 +27,7 @@ import {
     MatIconModule,
     MatBadgeModule,
     MatSelectModule,
+    FooterComponent,
   ],
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
