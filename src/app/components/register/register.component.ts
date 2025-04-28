@@ -101,10 +101,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(user).subscribe(
       (u) => {
         if (u.accessToken && u.username && u.id && u.email) {
-          localStorage.setItem('access_token', u.accessToken);
-          localStorage.setItem('username', u.username);
           localStorage.setItem('uid', u.id);
-          localStorage.setItem('email', u.email);
 
           this.router.navigate(['/']);
         }

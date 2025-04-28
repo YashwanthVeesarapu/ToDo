@@ -70,6 +70,7 @@ export class TodoListComponent implements OnInit {
   openModal: boolean = false;
   selectedTab = 'day';
   title: string = '';
+  timezone: string = '';
 
   constructor(
     private todoService: TodoService,
@@ -96,6 +97,12 @@ export class TodoListComponent implements OnInit {
         }
         this.loading = false;
       },
+    });
+    this.authService.user$.subscribe((user) => {
+      if (user) {
+        console.log('User timezone:', user.timezone);
+        this.timezone = user.timezone || 'America/New_York';
+      }
     });
   }
 
@@ -221,7 +228,7 @@ export class TodoListComponent implements OnInit {
 
   repeatChange(e: any) {
     this.clickData.repeat = e.target.value;
-    this.todoService.editTodo(this.clickData).subscribe(
+    this.todoService.editTodo(this.clickData, this.timezone).subscribe(
       (todo) => {
         this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
         this.filterTodosByTab();
@@ -264,7 +271,7 @@ export class TodoListComponent implements OnInit {
 
   completeTodo(todo: Todo) {
     todo.completed = !todo.completed;
-    this.todoService.editTodo(todo).subscribe((d) => {
+    this.todoService.editTodo(todo, this.timezone).subscribe((d) => {
       this.todos = this.todos.map((t) => (t.id === d.id ? d : t));
       this.filterTodosByTab();
     });
@@ -272,7 +279,7 @@ export class TodoListComponent implements OnInit {
 
   starTodo(todo: Todo) {
     todo.important = !todo.important;
-    this.todoService.editTodo(todo).subscribe(
+    this.todoService.editTodo(todo, this.timezone).subscribe(
       () => {
         this.todos = this.todos.map((t) => (t.id === todo.id ? todo : t));
         this.filterTodosByTab();

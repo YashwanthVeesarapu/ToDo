@@ -1,70 +1,146 @@
-<!-- profile page -->
 <div class="profile">
-  <h1>Profile</h1>
-  <div class="profile-info">
-    <div class="profile-info-item">
-      <h2 class="profile-info-item-label">Username</h2>
-      <p class="profile-info-item-value">{{ user.username }}</p>
+  <header class="profile-header">
+    <h1>Profile</h1>
+    <p class="profile-subheader">Manage your account details</p>
+  </header>
+
+  <form
+    [formGroup]="profileForm"
+    (ngSubmit)="saveProfile()"
+    class="profile-form"
+  >
+    <section class="profile-info">
+      <div class="profile-info-item">
+        <label for="username" class="profile-info-item-label">Username</label>
+        <p id="username" class="profile-info-item-value">{{ user.username }}</p>
+      </div>
+      <div class="profile-info-item">
+        <label for="email" class="profile-info-item-label">Email</label>
+        <p id="email" class="profile-info-item-value">{{ user.email }}</p>
+      </div>
+      <div class="profile-info-item">
+        <label for="firstName" class="profile-info-item-label"
+          >First Name</label
+        >
+        <input
+          id="firstName"
+          formControlName="firstName"
+          class="profile-info-item-value"
+          type="text"
+          placeholder="Enter first name"
+          required
+          aria-describedby="firstName-error"
+          [attr.aria-invalid]="
+            profileForm.get('firstName')?.invalid &&
+            profileForm.get('firstName')?.touched
+          "
+        />
+        <span
+          id="firstName-error"
+          class="error-message"
+          *ngIf="
+            profileForm.get('firstName')?.invalid &&
+            profileForm.get('firstName')?.touched
+          "
+        >
+          First name is required
+        </span>
+      </div>
+      <div class="profile-info-item">
+        <label for="lastName" class="profile-info-item-label">Last Name</label>
+        <input
+          id="lastName"
+          formControlName="lastName"
+          class="profile-info-item-value"
+          type="text"
+          placeholder="Enter last name"
+          required
+          aria-describedby="lastName-error"
+          [attr.aria-invalid]="
+            profileForm.get('lastName')?.invalid &&
+            profileForm.get('lastName')?.touched
+          "
+        />
+        <span
+          id="lastName-error"
+          class="error-message"
+          *ngIf="
+            profileForm.get('lastName')?.invalid &&
+            profileForm.get('lastName')?.touched
+          "
+        >
+          Last name is required
+        </span>
+      </div>
+      <div class="profile-info-item">
+        <label for="timezone" class="profile-info-item-label">Timezone</label>
+        <mat-select
+          id="timezone"
+          formControlName="timezone"
+          class="profile-info-item-value"
+          placeholder="Select timezone"
+          required
+          aria-describedby="timezone-error"
+          [attr.aria-invalid]="
+            profileForm.get('timezone')?.invalid &&
+            profileForm.get('timezone')?.touched
+          "
+        >
+          <mat-option
+            *ngFor="let timezone of timezones; trackBy: trackByTimezone"
+            [value]="timezone.value"
+          >
+            {{ timezone.label }}
+          </mat-option>
+        </mat-select>
+        <span
+          id="timezone-error"
+          class="error-message"
+          *ngIf="
+            profileForm.get('timezone')?.invalid &&
+            profileForm.get('timezone')?.touched
+          "
+        >
+          Timezone is required
+        </span>
+      </div>
+    </section>
+
+    <div class="profile-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="profile-action"
+        [disabled]="profileForm.invalid"
+        aria-label="Save profile changes"
+      >
+        Save Changes
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        (click)="changePassword()"
+        class="profile-action"
+        aria-label="Change password"
+      >
+        Change Password
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        (click)="logout()"
+        class="profile-action danger-btn"
+        aria-label="Logout"
+      >
+        Logout
+      </button>
     </div>
-    <div class="profile-info-item">
-      <h2 class="profile-info-item-label">Email</h2>
-      <p class="profile-info-item-value">{{ user.email }}</p>
-    </div>
+  </form>
 
-    <div class="profile-info-item">
-      <h2 class="profile-info-item-label">First Name</h2>
-      <input
-        class="profile-info-item-value"
-        [(ngModel)]="user.firstName"
-        type="text"
-      />
-    </div>
-
-    <div class="profile-info-item">
-      <h2 class="profile-info-item-label">Last Name</h2>
-      <input
-        class="profile-info-item-value"
-        [(ngModel)]="user.lastName"
-        type="text"
-      />
-    </div>
-
-    <div class="profile-info-item">
-      <h2 class="profile-info-item-label">Timezone</h2>
-      <mat-select class="profile-info-item-value" [(ngModel)]="user.timezone">
-        <mat-option *ngFor="let timezone of timezones" [value]="timezone.value">
-          {{ timezone.label }}
-        </mat-option>
-      </mat-select>
-    </div>
-  </div>
-
-  <div class="profile-actions">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="editUser()"
-      class="profile-action"
-    >
-      Save
-    </button>
-
-    <button
-      mat-raised-button
-      color="accent"
-      (click)="changePassword()"
-      class="profile-action"
-    >
-      Change Password
-    </button>
-
-    <button
-      mat-raised-button
-      color="warn"
-      (click)="logout()"
-      class="profile-action danger-btn"
-    >
-      Logout
-    </button>
+  <div class="profile-notification" *ngIf="notificationMessage" @appear>
+    <p [ngClass]="notificationType">{{ notificationMessage }}</p>
   </div>
 </div>

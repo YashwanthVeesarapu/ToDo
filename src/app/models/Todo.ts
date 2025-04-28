@@ -9,6 +9,5 @@ export interface Todo {
   important?: boolean;
   token?: string;
   uid?: string;
-  username?: string;
   time?: string;
 }

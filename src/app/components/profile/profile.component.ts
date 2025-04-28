@@ -1,21 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/User';
 import { UserService } from '../../services/user/user.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatOption, MatSelect } from '@angular/material/select';
-import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, MatSelect, MatOption, CommonModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelect,
+    MatOption,
+    CommonModule,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
+  animations: [
+    trigger('appear', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.3s ease-in', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+  profileForm: FormGroup;
   user: User = {};
+  notificationMessage: string | null = null;
+  notificationType: 'success' | 'error' = 'success';
 
   timezones = [
     { value: 'America/Los_Angeles', label: 'Pacific Time' },
@@ -29,8 +49,7 @@ export class ProfileComponent {
     { value: 'Asia/Tokyo', label: 'Tokyo' },
     { value: 'Australia/Sydney', label: 'Sydney' },
     { value: 'Asia/Dubai', label: 'Dubai' },
-    { value: 'Asia/Kolkata', label: 'Mumbai' },
-    { value: 'Asia/Kolkata', label: 'Kolkata' },
+    { value: 'Asia/Kolkata', label: 'India Standard Time' },
     { value: 'Asia/Shanghai', label: 'Shanghai' },
     { value: 'Asia/Singapore', label: 'Singapore' },
     { value: 'Asia/Hong_Kong', label: 'Hong Kong' },
@@ -43,33 +62,74 @@ export class ProfileComponent {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit() {
-    this.userService.getUser().subscribe((response) => {
-      this.user = response;
+    private router: Router,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
+  ) {
+    this.profileForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      timezone: ['', Validators.required],
     });
   }
 
-  editUser() {
-    this.userService.editUser(this.user).subscribe({
-      next: (response) => {
-        localStorage.setItem('user', JSON.stringify(this.user));
-        alert('User updated successfully');
+  ngOnInit(): void {
+    this.userService.getUser().subscribe({
+      next: (response: User) => {
+        this.user = response;
+        this.profileForm.patchValue({
+          firstName: response.firstName,
+          lastName: response.lastName,
+          timezone: response.timezone,
+        });
       },
       error: (error) => {
-        alert('Something went wrong');
+        this.showNotification('Failed to load user data', 'error');
       },
     });
   }
-  logout() {
+
+  saveProfile(): void {
+    if (this.profileForm.valid) {
+      const updatedUser: User = {
+        ...this.user,
+        ...this.profileForm.value,
+      };
+      this.userService.editUser(updatedUser).subscribe({
+        next: (response) => {
+          this.user = response;
+          this.showNotification('Profile updated successfully', 'success');
+        },
+        error: (error) => {
+          this.showNotification('Failed to update profile', 'error');
+        },
+      });
+    } else {
+      this.showNotification('Please fill all required fields', 'error');
+    }
+  }
+
+  changePassword(): void {
+    this.router.navigate(['/change-password']);
+  }
+
+  logout(): void {
     this.authService.logout();
-    // Redirect to login page
+    this.showNotification('Logged out successfully', 'success');
     this.router.navigate(['/login']);
   }
 
-  changePassword() {
-    this.router.navigate(['/change-password']);
+  private showNotification(message: string, type: 'success' | 'error'): void {
+    this.notificationMessage = message;
+    this.notificationType = type;
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
+    });
+    setTimeout(() => (this.notificationMessage = null), 5000);
+  }
+
+  trackByTimezone(index: number, timezone: any): string {
+    return timezone.value;
   }
 }

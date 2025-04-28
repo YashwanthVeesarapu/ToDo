@@ -23,16 +23,27 @@ export class AuthService {
 
   /** Get the current user on app startup */
   getCurrentUser(): Observable<User | null> {
+    // dont send request if no uid in localStorage
+    if (
+      !localStorage.getItem('uid') ||
+      localStorage.getItem('uid') === 'undefined'
+    ) {
+      return of(null);
+    }
+
     if (this.userSubject.value && !this.loadingSubject.value) return this.user$; // Return cached state
 
     this.loadingSubject.next(true); // Start loading indicator
 
     return this.http
-      .get<User>(`${this.apiUrl}/me`, { withCredentials: true })
+      .get<User>(`${this.apiUrl}/verify`, { withCredentials: true })
       .pipe(
-        tap((user) => this.userSubject.next(user)),
+        tap((user) => {
+          this.userSubject.next(user);
+        }),
         catchError(() => {
           this.userSubject.next(null);
+          localStorage.removeItem('uid'); // Clear user ID from localStorage on error
           return of(null);
         }),
         finalize(() => this.loadingSubject.next(false)),
@@ -41,12 +52,18 @@ export class AuthService {
   }
 
   /** Login user and update state */
-  login(credentials: UserCredentials): Observable<User> {
+  login(credentials: UserCredentials): Observable<any> {
     return this.http
-      .post<User>(`${this.apiUrl}/login`, credentials, {
+      .post<any>(`${this.apiUrl}/login`, credentials, {
         withCredentials: true,
       })
-      .pipe(tap((user) => this.userSubject.next(user)));
+      .pipe(
+        tap((user) => {
+          console.log('User logged in:', user);
+          localStorage.setItem('uid', JSON.stringify(user.uid)); // Store user ID in localStorage
+          this.userSubject.next(user);
+        })
+      );
   }
 
   /** Register new user */
